@@ -2,14 +2,19 @@
 Module with functions
 """
 
-# Settings module
-import settings
+import cv2 as cv
 
+# Settings
+import settings
 # Debugging flag
 DEBUG = settings.DEBUG
 
-# Importing
-import cv2 as cv
+# Reading configuration settings
+# H_frame = settings.H_frame
+# W_frame = settings.W_frame
+# Def_cam = settings.Def_Cam
+
+
 
 
 # Show video from source

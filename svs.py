@@ -1,81 +1,78 @@
 """
-Программа получает картинку с одной камеры по rtsp.
-Видео обрабатывается разными моделями (набор которых может изменяться)
-
+Программа получает видео с камер по rtsp.
+Видео обрабатывается разными алгоритмами и моделями согласно заданного режима работы.
 Папка models предназначена для хранения моделей.
-Папка out_files предназначена для записи результатов (коротких роликов).
-
-Предполагаются следующие режимы рабоы программы (могут изменяться и дополняться):
-1. Просмотр видео (без обработки). Предназначен для проверки доступности источника видео.
-2. Просмотр видео с детекцией движения (без записи). Предназначен для оценки детекции движения.
-3. Просмотр видео с детекцией движения (с записью роликов с обнаруженным движением).
-4. Просмотр видео с детекцией движения и обработкой части кадра моделью для детекции объектов (без записи).
-5. Просмотр видео с детекцией движения и обработкой части кадра моделью для детекции объектов (с записью).
-6. Просмотр видео с обработкой полного кадра моделью для детекции объектов (без записи).
-7. Просмотр видео с обработкой полного кадра моделью для детекции объектов (с записью).
-Режимы 4-7 могут быть реализованы в варианте только с записью (без отображения картинки на мониторе)
-Режимы работы могут быть заданы параметром командной строки.
+Папка out_files предназначена для записи результатов (коротких роликов или изображений).
+Параметры хранятся в файле settings.py
+Функции - в файле utils.py
+Режим работы может быть задан параметром командной строки.
 """
-# Модули настроек и функций
-import settings
-import utils
-#
+
+# Necessary modules
 import os
 import sys
 import warnings
 warnings.filterwarnings("ignore")
 
-def process(source_PATH, out_PATH, model_PATH):
+# Settings and functions
+import settings
+import utils
+
+# Process function
+def process(Operation_mode_name):
     """
-    source_PATH путь к каталогу с файлами
-    out_PATH путь результатам
-    model_PATH Путь к модели
+    operating_MODE - selected operating mode
     """
-    # Создадим папки для файлов, если их нет
-    if not (source_PATH in os.listdir('.')):
-        os.mkdir(source_PATH)
+
+    # Reading folder configuration from settings
+    model_PATH = settings.model_PATH
+    out_PATH = settings.out_PATH
+    # Create folders if needed
+    if not (model_PATH in os.listdir('.')):
+        os.mkdir(model_PATH)
     if not (out_PATH in os.listdir('.')):
         os.mkdir(out_PATH)
 
-    # В папке должен быть файл модели
-    assert model_PATH in os.listdir('.'), 'В папке программы должен быть файл модели'
+    # Reading Active cams configuration from settings
+    Cam_list = []
+    Def_cam = None
+    for cam in settings.Cameras:
+        if cam['Active']:
+            Cam_list.append(cam)
+            if cam['Cam_name'] == settings.Def_cam_name:
+                Def_cam = cam  # default camera assignment
+                if DEBUG:
+                    print('Default camera is: {}'.format(Def_cam['Cam_name']))
+    if DEBUG:
+        print('Total cameras loaded: {0}'.format(len(Cam_list)))
+    assert Def_cam is not None, 'Must have Def_cam assigned'
 
-    # Создадим список файлов для обработки
-    source_files = sorted(os.listdir(source_PATH))
-    out_files = sorted(os.listdir(out_PATH))
-    # Список картинок для обработки
-    img_files = []
-    for f in source_files:
-        filename, file_extension = os.path.splitext(f)
-        # print(f,filename,file_extension)
-        if not (('out_'+f) in out_files):
-            if file_extension in img_type_list:
-                img_files.append(f)
+    # Reading operation mode from settings
+    Operation_mode = None
+    for mode in settings.Operation_modes:
+        if mode['Mode_name'] == settings.Operation_mode_name:
+            Operation_mode = mode  # operation mode assignment
+            if DEBUG:
+                print('Operation mode is: {}'.format(Operation_mode['Mode_name']))
+    assert Operation_mode is not None, 'Operation_mode is not assigned'
 
-    # Получаем модель
-    model = mnist.get_model(model_PATH, '')
-    # model = mnist.get_model(model_PATH, '/cpu:0')
-
-    # Обрабатываем картинки
-    for img in img_files:
-        # полные пути к файлам
-        img_FILE = source_PATH + '/' + img
-        out_FILE = out_PATH + '/' + 'out_' + img
-        # Вызов функции предикта
-        _ = mnist.mnist_predict(model, img_FILE, out_FILE)
-
-    # Сообщаем что обработали
-    if len(img_files) == 0:
-        # print('Нет картинок для обработки.')
-        print('The are no pictures to predict.')
-    else:
-        # print('Обработали {0} картинок.'.format(len(img_files)))
-        print('Predicted {0} pictures.'.format(len(img_files)))
+    # Case switch
+    match Operation_mode['Mode_name']:
+        case 'View1':
+            print('Запускаем режим {}'.format('View1'))
+            utils.show_from_source(Def_cam['RTSP'], settings.W_frame, settings.H_frame)
+        case _:
+            print('Нужной функции пока нет')
 
 
 if __name__ == '__main__':
-    source_PATH = 'source_files' if len(sys.argv) <= 1 else sys.argv[1]
-    out_PATH = 'out_files' if len(sys.argv) <= 2 else sys.argv[2]
-    model_PATH = 'model-CNN.h5' if len(sys.argv) <= 3 else sys.argv[3]
-
-    process(source_PATH, out_PATH, model_PATH)
+    # Debugging flag
+    DEBUG = settings.DEBUG
+    if DEBUG:
+        print('DEBUG mode: on')
+    # Operating mode may be replaced from command line args
+    Operation_mode_name = settings.Operation_mode_name if len(sys.argv) <= 1 else sys.argv[1]
+    if DEBUG:
+        print('Operating mode pre-selected: {}'.format(Operation_mode_name))
+    # Run process
+    process(Operation_mode_name)
