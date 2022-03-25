@@ -38,13 +38,14 @@ def process(Operation_mode_name):
     Def_cam = None
     for cam in settings.Cameras:
         if cam['Active']:
-            Cam_list.append(cam)
             if cam['Cam_name'] == settings.Def_cam_name:
                 Def_cam = cam  # default camera assignment
                 if DEBUG:
                     print('Default camera is: {}'.format(Def_cam['Cam_name']))
+            else:
+                Cam_list.append(cam)
     if DEBUG:
-        print('Total cameras loaded: {0}'.format(len(Cam_list)))
+        print('Additional cameras loaded: {0}'.format(len(Cam_list)))
     assert Def_cam is not None, 'Must have Def_cam assigned'
 
     # Reading operation mode from settings
@@ -56,10 +57,12 @@ def process(Operation_mode_name):
                 print('Operation mode is: {}'.format(Operation_mode['Mode_name']))
     assert Operation_mode is not None, 'Operation_mode is not assigned'
 
-    # Case switch
+    # TODO: хорошо бы определить фактическое разрешение экрана чтобы пересчитать размеры окна под него
+
+    # Case switch for running in operation mode
     match Operation_mode['Mode_name']:
         case 'View1':
-            print('Запускаем режим {}'.format('View1'))
+            # print('Запускаем режим {}'.format('View1'))
             utils.show_from_source(Def_cam['RTSP'], settings.W_frame, settings.H_frame)
         case _:
             print('Нужной функции пока нет')
