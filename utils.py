@@ -115,3 +115,35 @@ def show_from_source_2x2(Cam_list, W=1200, H=800):
     for cap in capture_list:
         cap.release()
     cv.destroyAllWindows()
+
+
+# Show video from source 16 cameras
+def show_from_source_4x4(Cam_list, W=1200, H=800):
+
+    # Template 4x4
+    w = int(W/4)
+    h = int(H/4)
+
+    SOURCE_list = [cam['RTSP'] for cam in Cam_list]
+    capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
+
+    while True:
+        frame_list = []
+        for cap in capture_list:
+            isTrue, frame = cap.read()
+            frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
+            frame_list.append(frame)
+
+        # Preparing full frame
+        row1 = np.concatenate((frame_list[0], frame_list[1], frame_list[2], frame_list[3]), axis=1)
+        row2 = np.concatenate((frame_list[4], frame_list[5], frame_list[6], frame_list[7]), axis=1)
+        row3 = np.concatenate((frame_list[8], frame_list[9], frame_list[10], frame_list[11]), axis=1)
+        row4 = np.concatenate((frame_list[12], frame_list[13], frame_list[14], frame_list[15]), axis=1)
+        frame = np.concatenate((row1, row2, row3, row4), axis=0)
+        cv.imshow('View4x4', frame)
+
+        if cv.waitKey(20) & 0xFF == ord('q'):
+            break
+    for cap in capture_list:
+        cap.release()
+    cv.destroyAllWindows()

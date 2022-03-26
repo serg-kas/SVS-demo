@@ -80,6 +80,9 @@ def process(Operation_mode_name):
         case 'View2x2':
             # Call function for four cameras view
             utils.show_from_source_2x2(Cam_list, W_frame, H_frame)
+        case 'View4x4':
+            # Call function for four cameras view
+            utils.show_from_source_4x4(Cam_list, W_frame, H_frame)
         case _:
             print('Wrong operation mode.')
 

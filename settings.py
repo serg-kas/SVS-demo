@@ -14,21 +14,52 @@ out_PATH = 'out_files'
 # Put RTSP string with user:password if needed.
 Cameras = [{'Cam_name': 'Cam01', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=1&subtype=0'},
-           {'Cam_name': 'Cam02', 'Active': False,
+           {'Cam_name': 'Cam02', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=2&subtype=0'},
-           {'Cam_name': 'Cam03', 'Active': False,
+           {'Cam_name': 'Cam03', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=3&subtype=0'},
-           {'Cam_name': 'Cam06', 'Active': False,
+           {'Cam_name': 'Cam04', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=4&subtype=0'},
+           {'Cam_name': 'Cam05', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=5&subtype=0'},
+           {'Cam_name': 'Cam06', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=6&subtype=0'},
            {'Cam_name': 'Cam07', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=7&subtype=0'},
+           {'Cam_name': 'Cam08', 'Active': False,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=8&subtype=0'},
+           {'Cam_name': 'Cam09', 'Active': False,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=9&subtype=0'},
+           {'Cam_name': 'Cam10', 'Active': False,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=10&subtype=0'},
            {'Cam_name': 'Cam11', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=11&subtype=0'},
-           {'Cam_name': 'Cam13', 'Active': False,
+           {'Cam_name': 'Cam12', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=12&subtype=0'},
+           {'Cam_name': 'Cam13', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=13&subtype=0'},
            {'Cam_name': 'Cam14', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=14&subtype=0'},
+           {'Cam_name': 'Cam15', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=15&subtype=0'},
+           {'Cam_name': 'Cam16', 'Active': False,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=16&subtype=0'},
+           {'Cam_name': 'Cam21', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=1&subtype=0'},
+           {'Cam_name': 'Cam22', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=2&subtype=0'},
+           {'Cam_name': 'Cam23', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=3&subtype=0'},
+           {'Cam_name': 'Cam24', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=4&subtype=0'},
+           {'Cam_name': 'Cam25', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=5&subtype=0'},
+           {'Cam_name': 'Cam26', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=6&subtype=0'},
+           {'Cam_name': 'Cam27', 'Active': True,
+            'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=7&subtype=0'},
            ]
+
 # Default camera name
 Def_cam_name = 'Cam11'
 # Def_cam_name = 'Cam07'
@@ -45,7 +76,9 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
                    {'Mode_name': 'View1_fps', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Single camera view with FPS count'},
                    {'Mode_name': 'View2x2', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': 'Four cameras view'},
+                    'Description': '4 cameras view'},
+                   {'Mode_name': 'View4x4', 'Pipeline': [], 'Save': False, 'Display': True,
+                    'Description': '16 cameras view'},
                    ]
 
          # {'Mode': 'MD', 'MD': True, 'OD': False, 'FD': False, 'Save': False, 'Display': True},
@@ -59,7 +92,8 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
 # Operation mode name
 # Operation_mode_name = 'View1'
 # Operation_mode_name = 'View1_fps'
-Operation_mode_name = 'View2x2'
+# Operation_mode_name = 'View2x2'
+Operation_mode_name = 'View4x4'
 
 # Screen resolution by default
 Def_W = 1200
