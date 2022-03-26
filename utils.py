@@ -3,6 +3,7 @@ Module with functions
 """
 # Necessary modules
 import cv2 as cv
+import numpy as np
 import tkinter as tk    # for screen resolution info
 import time
 import settings         # settings
@@ -76,9 +77,8 @@ def show_from_source_fps(SOURCE, W=1200, H=800):
         frames_count += 1
         #
         frame = cv.resize(frame, (W, H), interpolation=cv.INTER_AREA)
-        # Put FPS on the frame
+        # Put FPS on the frame and show it
         cv.putText(frame, str(fps), (7, 70), font, 3, (100, 255, 0), 3, cv.LINE_AA)
-        #
         cv.imshow(SOURCE, frame)
         #
         if cv.waitKey(20) & 0xFF == ord('q'):
@@ -88,17 +88,30 @@ def show_from_source_fps(SOURCE, W=1200, H=800):
 
 
 # Show video from source 4 cameras
-# TODO: MAKE 4 CAMERAS TEMPLATE
-def show_from_source_4(Cam_list, W=1200, H=800):
-    SOURCE = Cam_list[0]['RTSP']
-    capture = cv.VideoCapture(SOURCE)
+def show_from_source_2x2(Cam_list, W=1200, H=800):
 
+    # Template 2x2
+    w = int(W/2)
+    h = int(H/2)
+
+    SOURCE_list = [cam['RTSP'] for cam in Cam_list]
+    capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
 
     while True:
-        isTrue, frame = capture.read()
-        frame = cv.resize(frame, (W, H), interpolation=cv.INTER_AREA)
-        cv.imshow(SOURCE, frame)
+        frame_list = []
+        for cap in capture_list:
+            isTrue, frame = cap.read()
+            frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
+            frame_list.append(frame)
+
+        # Preparing full frame
+        row1 = np.concatenate((frame_list[0], frame_list[1]), axis=1)
+        row2 = np.concatenate((frame_list[2], frame_list[3]), axis=1)
+        frame = np.concatenate((row1, row2), axis=0)
+        cv.imshow('View4', frame)
+
         if cv.waitKey(20) & 0xFF == ord('q'):
             break
-    capture.release()
+    for cap in capture_list:
+        cap.release()
     cv.destroyAllWindows()

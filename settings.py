@@ -44,25 +44,22 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
                     'Description': 'Single camera view'},
                    {'Mode_name': 'View1_fps', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Single camera view with FPS count'},
-                   {'Mode_name': 'View4', 'Pipeline': [], 'Save': False, 'Display': True,
+                   {'Mode_name': 'View2x2', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Four cameras view'},
+                   ]
 
-
-
-         # {'Mode': 'MDv', 'MD': True, 'OD': False, 'FD': False, 'Save': False, 'Display': True},
+         # {'Mode': 'MD', 'MD': True, 'OD': False, 'FD': False, 'Save': False, 'Display': True},
          # {'Mode': 'MDs', 'MD': True, 'OD': False, 'FD': False, 'Save': True, 'Display': True},
-         # {'Mode': 'MDODv', 'MD': True, 'OD': True, 'FD': False, 'Save': False, 'Display': True},
+         # {'Mode': 'MDOD', 'MD': True, 'OD': True, 'FD': False, 'Save': False, 'Display': True},
          # {'Mode': 'MDODs', 'MD': True, 'OD': True, 'FD': False, 'Save': True, 'Display': True},
-         # {'Mode': 'ODv', 'MD': False, 'OD': True, 'FD': False, 'Save': False, 'Display': True},
+         # {'Mode': 'OD', 'MD': False, 'OD': True, 'FD': False, 'Save': False, 'Display': True},
          # {'Mode': 'ODs', 'MD': False, 'OD': True, 'FD': False, 'Save': True, 'Display': True},
          # {'Mode': 'MDcli', 'MD': True, 'OD': False, 'FD': False, 'Save': True, 'Display': False},
-         # {'Mode': 'MDcli', 'MD': True, 'OD': True, 'FD': False, 'Save': True, 'Display': False},
-         # {'Mode': 'ODcli', 'MD': False, 'OD': True, 'FD': False, 'Save': True, 'Display': False},
-         ]
+
 # Operation mode name
 # Operation_mode_name = 'View1'
 # Operation_mode_name = 'View1_fps'
-Operation_mode_name = 'View4'
+Operation_mode_name = 'View2x2'
 
 # Screen resolution by default
 Def_W = 1200

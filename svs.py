@@ -77,9 +77,9 @@ def process(Operation_mode_name):
         case 'View1_fps':
             # Call function for single camera view with FPS counting
             utils.show_from_source_fps(Def_cam['RTSP'], W_frame, H_frame)
-        case 'View4':
+        case 'View2x2':
             # Call function for four cameras view
-            utils.show_from_source_4(Cam_list, W_frame, H_frame)
+            utils.show_from_source_2x2(Cam_list, W_frame, H_frame)
         case _:
             print('Wrong operation mode.')
 
