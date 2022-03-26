@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="View2x2 function done">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="View4x4 function done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648311091372</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="View4x4 function done">
+      <created>1648320660819</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1648320660819</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -162,6 +168,7 @@
     <MESSAGE value="New function for getting screen resolution info" />
     <MESSAGE value="FPS calculating is done.&#10;View4 function started" />
     <MESSAGE value="View2x2 function done" />
-    <option name="LAST_COMMIT_MESSAGE" value="View2x2 function done" />
+    <MESSAGE value="View4x4 function done" />
+    <option name="LAST_COMMIT_MESSAGE" value="View4x4 function done" />
   </component>
 </project>

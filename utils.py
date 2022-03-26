@@ -126,21 +126,31 @@ def show_from_source_4x4(Cam_list, W=1200, H=800):
 
     SOURCE_list = [cam['RTSP'] for cam in Cam_list]
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
+    #
+    black_frame = np.zeros((h, w, 3), dtype=np.uint8)
 
     while True:
         frame_list = []
-        for cap in capture_list:
+        for idx, cap in enumerate(capture_list):
             isTrue, frame = cap.read()
-            frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
-            frame_list.append(frame)
+            if isTrue:
+                frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
+            else:
+                # set frame as black frame
+                frame = black_frame.copy()
+                # RTSP errors handling
+                cap.release()
+                del capture_list[idx]
+                capture_list.insert(idx, cv.VideoCapture(SOURCE_list[idx]))
 
+            frame_list.append(frame)
         # Preparing full frame
         row1 = np.concatenate((frame_list[0], frame_list[1], frame_list[2], frame_list[3]), axis=1)
         row2 = np.concatenate((frame_list[4], frame_list[5], frame_list[6], frame_list[7]), axis=1)
         row3 = np.concatenate((frame_list[8], frame_list[9], frame_list[10], frame_list[11]), axis=1)
         row4 = np.concatenate((frame_list[12], frame_list[13], frame_list[14], frame_list[15]), axis=1)
-        frame = np.concatenate((row1, row2, row3, row4), axis=0)
-        cv.imshow('View4x4', frame)
+        full_frame = np.concatenate((row1, row2, row3, row4), axis=0)
+        cv.imshow('View4x4', full_frame)
 
         if cv.waitKey(20) & 0xFF == ord('q'):
             break

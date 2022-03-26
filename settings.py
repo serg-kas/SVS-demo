@@ -61,8 +61,8 @@ Cameras = [{'Cam_name': 'Cam01', 'Active': True,
            ]
 
 # Default camera name
-Def_cam_name = 'Cam11'
-# Def_cam_name = 'Cam07'
+# Def_cam_name = 'Cam11'
+Def_cam_name = 'Cam01'
 
 # Operating mode configuration
 """
