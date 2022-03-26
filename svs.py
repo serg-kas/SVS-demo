@@ -23,7 +23,6 @@ def process(Operation_mode_name):
     """
     operating_MODE - selected operating mode
     """
-
     # Reading folder configuration from settings
     model_PATH = settings.model_PATH
     out_PATH = settings.out_PATH
@@ -57,15 +56,24 @@ def process(Operation_mode_name):
                 print('Operation mode is: {}'.format(Operation_mode['Mode_name']))
     assert Operation_mode is not None, 'Operation_mode is not assigned'
 
-    # TODO: хорошо бы определить фактическое разрешение экрана чтобы пересчитать размеры окна под него
+    # Get screen resolution info
+    W, H = utils.get_screen_resolution()
+    if DEBUG:
+        print('Screen resolution: {0},{1}'.format(W, H))
+    if W < 1200 | H < 800:
+        W = settings.Def_W
+        H = settings.Def_H
+    # Set frame size
+    W_frame = int(W * 0.85)
+    H_frame = int(H * 0.85)
 
     # Case switch for running in operation mode
     match Operation_mode['Mode_name']:
         case 'View1':
-            # print('Запускаем режим {}'.format('View1'))
-            utils.show_from_source(Def_cam['RTSP'], settings.W_frame, settings.H_frame)
+            # Call function for single camera view
+            utils.show_from_source(Def_cam['RTSP'], W_frame, H_frame)
         case _:
-            print('Нужной функции пока нет')
+            print('Такой режим не поддерживается')
 
 
 if __name__ == '__main__':
