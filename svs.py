@@ -32,7 +32,7 @@ def process(Operation_mode_name):
     if not (out_PATH in os.listdir('.')):
         os.mkdir(out_PATH)
 
-    # Reading Active cams configuration from settings
+    # Loading Active cameras configuration from settings
     Cam_list = []
     Def_cam = None
     for cam in settings.Cameras:
@@ -46,6 +46,8 @@ def process(Operation_mode_name):
     if DEBUG:
         print('Additional cameras loaded: {0}'.format(len(Cam_list)))
     assert Def_cam is not None, 'Must have Def_cam assigned'
+    # Insert Def_cam in first place
+    Cam_list.insert(0, Def_cam)
 
     # Reading operation mode from settings
     Operation_mode = None
@@ -67,13 +69,19 @@ def process(Operation_mode_name):
     W_frame = int(W * 0.85)
     H_frame = int(H * 0.85)
 
-    # Case switch for running in operation mode
+    # Case switch for running in selected operation mode
     match Operation_mode['Mode_name']:
         case 'View1':
             # Call function for single camera view
             utils.show_from_source(Def_cam['RTSP'], W_frame, H_frame)
+        case 'View1_fps':
+            # Call function for single camera view with FPS counting
+            utils.show_from_source_fps(Def_cam['RTSP'], W_frame, H_frame)
+        case 'View4':
+            # Call function for four cameras view
+            utils.show_from_source_4(Cam_list, W_frame, H_frame)
         case _:
-            print('Такой режим не поддерживается')
+            print('Wrong operation mode.')
 
 
 if __name__ == '__main__':
