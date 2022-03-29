@@ -7,16 +7,15 @@
 Функции - в файле utils.py
 Режим работы может быть задан параметром командной строки.
 """
-
+# Settings and functions
+import settings
+import utils
 # Necessary modules
 import os
 import sys
 import warnings
 warnings.filterwarnings("ignore")
 
-# Settings and functions
-import settings
-import utils
 
 # Process function
 def process(Operation_mode_name):
@@ -32,7 +31,7 @@ def process(Operation_mode_name):
     if not (out_PATH in os.listdir('.')):
         os.mkdir(out_PATH)
 
-    # Loading Active cameras configuration from settings
+    # Loading Active cameras configurations from settings
     Cam_list = []
     Def_cam = None
     for cam in settings.Cameras:
@@ -55,14 +54,15 @@ def process(Operation_mode_name):
         if mode['Mode_name'] == settings.Operation_mode_name:
             Operation_mode = mode  # operation mode assignment
             if DEBUG:
-                print('Operation mode is: {}'.format(Operation_mode['Mode_name']))
-    assert Operation_mode is not None, 'Operation_mode is not assigned'
+                print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
+    assert Operation_mode is not None, 'Operation_mode not found'
 
     # Get screen resolution info
     W, H = utils.get_screen_resolution()
     if DEBUG:
-        print('Screen resolution: {0},{1}'.format(W, H))
-    if W < 1200 | H < 800:
+        print('Screen resolution: ({0},{1})'.format(W, H))
+    # TODO: What is the minimum screen resolution to work with?
+    if W < 1024 | H < 768:
         W = settings.Def_W
         H = settings.Def_H
     # Set frame size
@@ -72,19 +72,16 @@ def process(Operation_mode_name):
     # Case switch for running in selected operation mode
     match Operation_mode['Mode_name']:
         case 'View1':
-            # Call function for single camera view
+            # Function for single camera view
             utils.show_from_source(Def_cam['RTSP'], W_frame, H_frame)
-        case 'View1_fps':
-            # Call function for single camera view with FPS counting
-            utils.show_from_source_fps(Def_cam['RTSP'], W_frame, H_frame)
         case 'View2x2':
-            # Call function for four cameras view
+            # Function for 4 cameras view
             utils.show_from_source_2x2(Cam_list, W_frame, H_frame)
         case 'View4x4':
-            # Call function for four cameras view
+            # Function for 16 cameras view
             utils.show_from_source_4x4(Cam_list, W_frame, H_frame)
         case _:
-            print('Wrong operation mode.')
+            print('Wrong operation mode (function not found).')
 
 
 if __name__ == '__main__':
@@ -95,6 +92,6 @@ if __name__ == '__main__':
     # Operating mode may be replaced from command line args
     Operation_mode_name = settings.Operation_mode_name if len(sys.argv) <= 1 else sys.argv[1]
     if DEBUG:
-        print('Operating mode pre-selected: {}'.format(Operation_mode_name))
+        print('Operation mode by settings|argv: {}'.format(Operation_mode_name))
     # Run process
     process(Operation_mode_name)

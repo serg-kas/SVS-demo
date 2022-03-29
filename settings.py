@@ -63,8 +63,8 @@ Cameras = [{'Cam_name': 'Cam01', 'Active': True,
            ]
 
 # Default camera name
-# Def_cam_name = 'Cam11'
-Def_cam_name = 'Cam01'
+Def_cam_name = 'Cam11'
+# Def_cam_name = 'Cam01'
 
 # Operating mode configuration
 """
@@ -74,9 +74,7 @@ Save - save results
 Display - show video
 """
 Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': 'Single camera view'},
-                   {'Mode_name': 'View1_fps', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': 'Single camera view with FPS count'},
+                    'Description': 'Single camera view with calculating FPS'},
                    {'Mode_name': 'View2x2', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': '4 cameras view'},
                    {'Mode_name': 'View4x4', 'Pipeline': [], 'Save': False, 'Display': True,
@@ -93,9 +91,8 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
 
 # Operation mode name
 # Operation_mode_name = 'View1'
-# Operation_mode_name = 'View1_fps'
-# Operation_mode_name = 'View2x2'
-Operation_mode_name = 'View4x4'
+Operation_mode_name = 'View2x2'
+# Operation_mode_name = 'View4x4'
 
 # Screen resolution by default
 Def_W = 1200
