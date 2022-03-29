@@ -119,16 +119,15 @@ def show_from_source_2x2(Cam_list, W=1200, H=800):
 
 # Show video from source 16 cameras
 def show_from_source_4x4(Cam_list, W=1200, H=800):
-
     # Template 4x4
     w = int(W/4)
     h = int(H/4)
 
-    SOURCE_list = [cam['RTSP'] for cam in Cam_list]
+    SOURCE_list = [cam['RTSP_sub'] for cam in Cam_list]
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
     #
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
-
+    #
     while True:
         frame_list = []
         for idx, cap in enumerate(capture_list):
@@ -137,13 +136,15 @@ def show_from_source_4x4(Cam_list, W=1200, H=800):
                 frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
             else:
                 # set frame as black frame
-                frame = black_frame.copy()
+                frame = black_frame
                 # RTSP errors handling
                 cap.release()
                 del capture_list[idx]
                 capture_list.insert(idx, cv.VideoCapture(SOURCE_list[idx]))
-
             frame_list.append(frame)
+        # if we don't have enough Active cameras
+        for _ in range(16-len(frame_list)):
+            frame_list.append(black_frame)
         # Preparing full frame
         row1 = np.concatenate((frame_list[0], frame_list[1], frame_list[2], frame_list[3]), axis=1)
         row2 = np.concatenate((frame_list[4], frame_list[5], frame_list[6], frame_list[7]), axis=1)
