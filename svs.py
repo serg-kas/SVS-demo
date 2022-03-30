@@ -4,7 +4,7 @@
 Папка models предназначена для хранения моделей.
 Папка out_files предназначена для записи результатов (коротких роликов или изображений).
 Параметры хранятся в файле settings.py
-Функции - в файле utils.py
+Функции - в файлах run.py и utils.py
 Режим работы может быть задан параметром командной строки.
 """
 # Settings and functions
@@ -21,7 +21,7 @@ warnings.filterwarnings("ignore")
 # Process function
 def process(Operation_mode_name):
     """
-    operating_MODE - selected operating mode
+    Operation_mode_name - operation mode to be run
     """
     # Reading folder configuration from settings
     model_PATH = settings.model_PATH
