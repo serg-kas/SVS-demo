@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="new module run.py">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
-    </list>
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="minimal improvements" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -179,7 +176,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648642464930</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="minimal improvements">
+      <created>1648645987691</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1648645987691</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -208,6 +212,7 @@
     <MESSAGE value="various improvements" />
     <MESSAGE value="test function for 4x4 view" />
     <MESSAGE value="new module run.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="new module run.py" />
+    <MESSAGE value="minimal improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="minimal improvements" />
   </component>
 </project>
