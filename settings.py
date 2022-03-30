@@ -83,7 +83,7 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
                    {'Mode_name': 'View4x4', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': '16 cameras view'},
                    {'Mode_name': 'test', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': 'Test 16 cameras view'},
+                    'Description': 'Test 36 cameras view'},
                    ]
 
          # {'Mode': 'MD', 'MD': True, 'OD': False, 'FD': False, 'Save': False, 'Display': True},

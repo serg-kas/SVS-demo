@@ -66,8 +66,9 @@ def process(Operation_mode_name):
             # Function for 16 cameras view
             run.show_from_source_4x4(Cam_list, W_frame, H_frame)
         case 'test':
-            # Test function for 16 cameras view
-            run.show_from_source_4x4_test(Cam_list, W_frame, H_frame)
+            # Test function
+            # run.show_from_source_5x5_test(Cam_list, W_frame, H_frame)
+            run.show_from_source_6x6_test(Cam_list, W_frame, H_frame)
         case _:
             print('Wrong operation mode (function not found).')
 
