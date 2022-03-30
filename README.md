@@ -2,4 +2,4 @@
 
 Small Video System
 
-JUST STARTED
+![alt text](https://github.com/serg-kas/SVS-demo/blob/master/SVS.png?raw=true)
