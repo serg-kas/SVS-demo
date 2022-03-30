@@ -141,3 +141,66 @@ def show_from_source_4x4(Cam_list, W=1200, H=800):
     for cap in capture_list:
         cap.release()
     cv.destroyAllWindows()
+
+
+# Show video from 16 cameras TEST
+def show_from_source_4x4_test(Cam_list, W=1200, H=800):
+    # Template 4x4
+    w = int(W/4)
+    h = int(H/4)
+
+    SOURCE_list = [cam['RTSP_sub'] for cam in Cam_list]
+    capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
+    black_frame = np.zeros((h, w, 3), dtype=np.uint8)
+    frame_list_prev = [black_frame for _ in range(len(capture_list))]
+    error_count_list = [0 for _ in range(len(capture_list))]
+    N_error = 10
+
+    font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
+    fontScale = 0.9  # TODO: Get optimal font scale and text position
+
+    while True:
+        frame_list = []
+        for idx, cap in enumerate(capture_list):
+            isTrue, frame = cap.read()
+            if isTrue:
+                frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
+                if DEBUG:
+                    if error_count_list[idx] >= 1:
+                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
+                error_count_list[idx] = 0  # reset error count
+            else:
+                # Inkrement error count
+                error_count_list[idx] += 1
+                # Get previous frame
+                frame = frame_list_prev[idx]
+                # If this is first error put text on the frame
+                if error_count_list[idx] == 1:
+                    cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
+                # RTSP errors handling after N_error times
+                if error_count_list[idx] >= N_error:
+                    cap.release()
+                    del capture_list[idx]
+                    capture_list.insert(idx, cv.VideoCapture(SOURCE_list[idx]))
+                    if DEBUG:
+                        print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
+            frame_list.append(frame)
+
+        # Copying current frame_list
+        frame_list_prev = frame_list
+        # If we don't have enough Active cameras            
+        for _ in range(16-len(frame_list)):
+            frame_list.append(black_frame)
+        # Preparing full frame
+        row1 = np.concatenate((frame_list[0], frame_list[1], frame_list[2], frame_list[3]), axis=1)
+        row2 = np.concatenate((frame_list[4], frame_list[5], frame_list[6], frame_list[7]), axis=1)
+        row3 = np.concatenate((frame_list[8], frame_list[9], frame_list[10], frame_list[11]), axis=1)
+        row4 = np.concatenate((frame_list[12], frame_list[13], frame_list[14], frame_list[15]), axis=1)
+        full_frame = np.concatenate((row1, row2, row3, row4), axis=0)
+        cv.imshow('View 4x4', full_frame)
+
+        if cv.waitKey(20) & 0xFF == ord('q'):
+            break
+    for cap in capture_list:
+        cap.release()
+    cv.destroyAllWindows()

@@ -44,7 +44,7 @@ Cameras = [{'Cam_name': 'Cam01', 'Active': True,
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=10&subtype=1'},
            {'Cam_name': 'Cam11', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=11&subtype=0',
-            'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=11&subtype=1'},  # camera !
+            'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=11&subtype=1'},
            {'Cam_name': 'Cam12', 'Active': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=12&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=12&subtype=1'},
@@ -79,6 +79,8 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
                     'Description': '4 cameras view'},
                    {'Mode_name': 'View4x4', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': '16 cameras view'},
+                   {'Mode_name': 'test', 'Pipeline': [], 'Save': False, 'Display': True,
+                    'Description': 'Test 16 cameras view'},
                    ]
 
          # {'Mode': 'MD', 'MD': True, 'OD': False, 'FD': False, 'Save': False, 'Display': True},
@@ -91,8 +93,9 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
 
 # Operation mode name
 # Operation_mode_name = 'View1'
-Operation_mode_name = 'View2x2'
+# Operation_mode_name = 'View2x2'
 # Operation_mode_name = 'View4x4'
+Operation_mode_name = 'test'
 
 # Screen resolution by default
 Def_W = 1200

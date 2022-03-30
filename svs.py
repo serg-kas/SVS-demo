@@ -51,7 +51,7 @@ def process(Operation_mode_name):
     # Reading operation mode from settings
     Operation_mode = None
     for mode in settings.Operation_modes:
-        if mode['Mode_name'] == settings.Operation_mode_name:
+        if mode['Mode_name'] == Operation_mode_name:
             Operation_mode = mode  # operation mode assignment
             if DEBUG:
                 print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
@@ -80,6 +80,9 @@ def process(Operation_mode_name):
         case 'View4x4':
             # Function for 16 cameras view
             utils.show_from_source_4x4(Cam_list, W_frame, H_frame)
+        case 'test':
+            # Test function for 16 cameras view
+            utils.show_from_source_4x4_test(Cam_list, W_frame, H_frame)
         case _:
             print('Wrong operation mode (function not found).')
 
@@ -92,6 +95,7 @@ if __name__ == '__main__':
     # Operating mode may be replaced from command line args
     Operation_mode_name = settings.Operation_mode_name if len(sys.argv) <= 1 else sys.argv[1]
     if DEBUG:
-        print('Operation mode by settings|argv: {}'.format(Operation_mode_name))
+        if len(sys.argv) > 1:
+            print('Operation mode is set by the command line parameter: {}'.format(Operation_mode_name))
     # Run process
     process(Operation_mode_name)
