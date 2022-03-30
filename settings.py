@@ -4,10 +4,12 @@ Module for storing settings, options, etc.
 # Debug flag could be changed here
 DEBUG = True
 
+
 # Models folder
 model_PATH = 'models'
 # Output files folder
 out_PATH = 'out_files'
+
 
 # Cameras configurations (list of dicts).
 # You can save several cameras to use some of them
@@ -66,6 +68,7 @@ Cameras = [{'Cam_name': 'Cam01', 'Active': True,
 Def_cam_name = 'Cam11'
 # Def_cam_name = 'Cam01'
 
+
 # Operating mode configuration
 """
 Mode_name - operating mode name
@@ -97,6 +100,10 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
 # Operation_mode_name = 'View4x4'
 Operation_mode_name = 'test'
 
+
 # Screen resolution by default
 Def_W = 1200
 Def_H = 800
+
+# Now many errors to reset video capture
+N_errors_to_reset = 10

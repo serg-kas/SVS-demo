@@ -10,6 +10,7 @@
 # Settings and functions
 import settings
 import utils
+import run
 # Necessary modules
 import os
 import sys
@@ -32,30 +33,14 @@ def process(Operation_mode_name):
         os.mkdir(out_PATH)
 
     # Loading Active cameras configurations from settings
-    Cam_list = []
-    Def_cam = None
-    for cam in settings.Cameras:
-        if cam['Active']:
-            if cam['Cam_name'] == settings.Def_cam_name:
-                Def_cam = cam  # default camera assignment
-                if DEBUG:
-                    print('Default camera is: {}'.format(Def_cam['Cam_name']))
-            else:
-                Cam_list.append(cam)
+    Cam_list = utils.get_cam_list()
     if DEBUG:
-        print('Additional cameras loaded: {0}'.format(len(Cam_list)))
-    assert Def_cam is not None, 'Must have Def_cam assigned'
-    # Insert Def_cam in first place
-    Cam_list.insert(0, Def_cam)
+        print('Active cameras loaded: {0}'.format(len(Cam_list)))
 
     # Reading operation mode from settings
-    Operation_mode = None
-    for mode in settings.Operation_modes:
-        if mode['Mode_name'] == Operation_mode_name:
-            Operation_mode = mode  # operation mode assignment
-            if DEBUG:
-                print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
-    assert Operation_mode is not None, 'Operation_mode not found'
+    Operation_mode = utils.get_operation_mode(Operation_mode_name)
+    if DEBUG:
+        print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
 
     # Get screen resolution info
     W, H = utils.get_screen_resolution()
@@ -73,16 +58,16 @@ def process(Operation_mode_name):
     match Operation_mode['Mode_name']:
         case 'View1':
             # Function for single camera view
-            utils.show_from_source(Def_cam['RTSP'], W_frame, H_frame)
+            run.show_from_source(Cam_list[0], W_frame, H_frame)
         case 'View2x2':
             # Function for 4 cameras view
-            utils.show_from_source_2x2(Cam_list, W_frame, H_frame)
+            run.show_from_source_2x2(Cam_list, W_frame, H_frame)
         case 'View4x4':
             # Function for 16 cameras view
-            utils.show_from_source_4x4(Cam_list, W_frame, H_frame)
+            run.show_from_source_4x4(Cam_list, W_frame, H_frame)
         case 'test':
             # Test function for 16 cameras view
-            utils.show_from_source_4x4_test(Cam_list, W_frame, H_frame)
+            run.show_from_source_4x4_test(Cam_list, W_frame, H_frame)
         case _:
             print('Wrong operation mode (function not found).')
 
