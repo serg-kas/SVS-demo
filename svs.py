@@ -64,7 +64,8 @@ def process(Operation_mode_name):
         case 'View4x4':
             run.show_from_source_cxr(Cam_list, W_frame, H_frame, 4, 4)
         case 'test':
-            run.show_from_source_cxr(Cam_list, W_frame, H_frame, 7, 8)
+            # run.show_from_source_cxr(Cam_list, W_frame, H_frame, 5, 4)
+            run.show_from_source_custom(Cam_list, W_frame, H_frame, 7, 7, 3)
         case _:
             print('Wrong operation mode (function not found).')
 

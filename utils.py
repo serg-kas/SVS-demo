@@ -3,7 +3,7 @@ Helper functions module
 """
 # Necessary modules
 # import cv2 as cv
-# import numpy as np
+import numpy as np
 import tkinter as tk    # for screen resolution info
 # import time
 #
@@ -50,6 +50,12 @@ def get_screen_resolution():
     return W, H
 
 
+# Concatenation list of arrays
+def concat_from_list(frame_list, N_cols, N_rows):
+    row_list = []
+    for r in range(N_rows):
+        row_list.append(np.concatenate([frame_list[N_cols * r + c] for c in range(N_cols)], axis=1))
+    return np.concatenate(row_list, axis=0)
 
 
 
