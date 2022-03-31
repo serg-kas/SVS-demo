@@ -83,7 +83,7 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
                    {'Mode_name': 'View4x4', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': '16 cameras view'},
                    {'Mode_name': 'test', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': 'Test 36 cameras view'},
+                    'Description': 'Test view'},
                    ]
 
          # {'Mode': 'MD', 'MD': True, 'OD': False, 'FD': False, 'Save': False, 'Display': True},
@@ -102,7 +102,7 @@ Operation_mode_name = 'test'
 
 
 # Screen resolution by default
-Def_W = 1200
+Def_W = 1280
 Def_H = 800
 
 # Now many errors to reset video capture

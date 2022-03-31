@@ -57,18 +57,14 @@ def process(Operation_mode_name):
     # Case switch for running in selected operation mode
     match Operation_mode['Mode_name']:
         case 'View1':
-            # Function for single camera view
-            run.show_from_source(Cam_list[0], W_frame, H_frame)
+            # Function for single camera view with calculating FPS
+            run.show_from_source_fps(Cam_list[0], W_frame, H_frame)
         case 'View2x2':
-            # Function for 4 cameras view
-            run.show_from_source_2x2(Cam_list, W_frame, H_frame)
+            run.show_from_source_cxr(Cam_list, W_frame, H_frame, 2, 2)
         case 'View4x4':
-            # Function for 16 cameras view
-            run.show_from_source_4x4(Cam_list, W_frame, H_frame)
+            run.show_from_source_cxr(Cam_list, W_frame, H_frame, 4, 4)
         case 'test':
-            # Test function
-            # run.show_from_source_5x5_test(Cam_list, W_frame, H_frame)
-            run.show_from_source_6x6_test(Cam_list, W_frame, H_frame)
+            run.show_from_source_cxr(Cam_list, W_frame, H_frame, 7, 8)
         case _:
             print('Wrong operation mode (function not found).')
 
