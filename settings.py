@@ -78,12 +78,10 @@ Display - show video
 """
 Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Single camera view with calculating FPS'},
-                   {'Mode_name': 'View2x2', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': '4 cameras view'},
-                   {'Mode_name': 'View4x4', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': '16 cameras view'},
+                   {'Mode_name': 'ViewCxR', 'Pipeline': [], 'Save': False, 'Display': True,
+                    'Description': 'CхR template view'},
                    {'Mode_name': 'test', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': 'Test view'},
+                    'Description': 'For testing needs'},
                    ]
 
          # {'Mode': 'MD', 'MD': True, 'OD': False, 'FD': False, 'Save': False, 'Display': True},
@@ -96,14 +94,16 @@ Operation_modes = [{'Mode_name': 'View1', 'Pipeline': [], 'Save': False, 'Displa
 
 # Operation mode name
 # Operation_mode_name = 'View1'
-# Operation_mode_name = 'View2x2'
-# Operation_mode_name = 'View4x4'
+# Operation_mode_name = 'View4x3'
 Operation_mode_name = 'test'
 
+# Columns and rows by default
+Def_cols = 5
+Def_rows = 4
 
 # Screen resolution by default
 Def_W = 1280
 Def_H = 800
 
-# Now many errors to reset video capture
+# After how many errors doing reset video capture
 N_errors_to_reset = 10
