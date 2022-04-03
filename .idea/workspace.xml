@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="New function with scaled default camera">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="Parsing operation mode ViewCxR from command line">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
@@ -217,7 +217,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648738104836</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Parsing operation mode ViewCxR from command line">
+      <created>1648826671225</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1648826671225</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -251,6 +258,7 @@
     <MESSAGE value="View5x5 and 6x6 (test)" />
     <MESSAGE value="Common function for CxR cells view" />
     <MESSAGE value="New function with scaled default camera" />
-    <option name="LAST_COMMIT_MESSAGE" value="New function with scaled default camera" />
+    <MESSAGE value="Parsing operation mode ViewCxR from command line" />
+    <option name="LAST_COMMIT_MESSAGE" value="Parsing operation mode ViewCxR from command line" />
   </component>
 </project>

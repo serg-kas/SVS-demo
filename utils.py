@@ -1,23 +1,35 @@
-"""
-Helper functions module
-"""
-# Necessary modules
-# import cv2 as cv
-import numpy as np
-import tkinter as tk    # for screen resolution info
-# import time
 #
-import settings         # settings
-# Debug flag
+# Helper functions module
+#
+import numpy as np
+import tkinter as tk  # being used for get screen resolution
+import os
+#
+import settings
+
+# Debug and  Verbose flags
 DEBUG = settings.DEBUG
+VERBOSE = settings.VERBOSE
 
 
-# Loading Active cameras configurations from settings
+# A few things to do first
+def do_preparing():
+    # Reading folder configuration from settings
+    model_PATH = settings.model_PATH
+    out_PATH = settings.out_PATH
+    # Create folders if needed
+    if not (model_PATH in os.listdir('.')):
+        os.mkdir(model_PATH)
+    if not (out_PATH in os.listdir('.')):
+        os.mkdir(out_PATH)
+
+
+# Loading cameras configurations from settings
 def get_cam_list():
     Cam_list = []
     Def_cam = None
     for cam in settings.Cameras:
-        if cam['Active']:
+        if cam['Is_active']:
             if cam['Cam_name'] == settings.Def_cam_name:
                 Def_cam = cam  # default camera assignment
                 if DEBUG:
@@ -79,11 +91,26 @@ def get_screen_resolution():
     root = tk.Tk()
     W = root.winfo_screenwidth()
     H = root.winfo_screenheight()
-    # TODO: What is the minimum screen resolution to work with?
+    # TODO: What is the minimum screen resolution allowed?
     if W < 1024 | H < 768:
         W = settings.Def_W
         H = settings.Def_H
     return W, H
+
+
+#
+# def get_optimal_font_scale(text, width):
+#
+#     for scale in reversed(range(0, 60, 1)):
+#         textSize = cv2.getTextSize(text, fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=scale/10, thickness=1)
+#         new_width = textSize[0][0]
+#         if (new_width <= width):
+#             return scale/10
+#     return 1
+#
+# fontScale = 3*(img.shape[1]//6)
+# font_size = get_optimal_font_scale(text, fontScale)
+# cv2.putText(img, text, org, font, font_size, color, thickness, cv2.LINE_AA)
 
 
 # Concatenation list of arrays
@@ -93,7 +120,3 @@ def concat_from_list(frame_list, N_cols, N_rows):
         # row_list.append(np.concatenate([frame_list[N_cols * r + c] for c in range(N_cols)], axis=1))
         row_list.append(np.concatenate(frame_list[N_cols * r: N_cols * (r + 1)], axis=1))
     return np.concatenate(row_list, axis=0)
-
-
-
-

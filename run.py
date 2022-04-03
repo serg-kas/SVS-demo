@@ -1,26 +1,27 @@
-"""
-Main function module
-"""
-# Necessary modules
+#
+# Main functions module
+#
 import cv2 as cv
 import numpy as np
 import time
 #
-import settings         # settings
-import utils            # helper functions
-# Debug flag
+import settings
+import utils
+
+# Debug and Verbose flags
 DEBUG = settings.DEBUG
+VERBOSE = settings.VERBOSE
 
 
-# Show video from source with calculating FPS
-def show_from_source_fps(Camera, W=1280, H=800):
+# Show video from one with calculating FPS
+def show_single_fps(Camera, W=1280, H=800):
     capture = cv.VideoCapture(Camera['RTSP'])
     # Source size
     capture_width = int(capture.get(cv.CAP_PROP_FRAME_WIDTH))
     capture_height = int(capture.get(cv.CAP_PROP_FRAME_HEIGHT))
-    if DEBUG:
+    if VERBOSE:
         print('Source camera resolution: ({}, {})'.format(capture_width, capture_height))
-
+    #
     Window_name = Camera['Cam_name'] + ': ' + Camera['RTSP']
 
     # Calculate FPS after N_frames
@@ -55,8 +56,8 @@ def show_from_source_fps(Camera, W=1280, H=800):
     cv.destroyAllWindows()
 
 
-# Show video from C*R cameras
-def show_from_source_cxr(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
+# Show video from C*R cameras in uniform template
+def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
     # Preparing template
     N_cells = int(N_cols * N_rows)
     assert N_cells > 0, 'Template must be at least 1 cell'
@@ -126,7 +127,7 @@ def show_from_source_cxr(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
 
 # Show video custom template Def_cam + some Cameras + event's line
 # TODO: Revise code !
-def show_from_source_custom(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, N_events_line=1):
+def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, N_events_line=1):
     # Preparing template
     w, h = int(W / N_cols), int(H / N_rows)
     # Def_scale - scale factor for Def_cam
