@@ -1,10 +1,10 @@
-# Программа получает видео с камер по rtsp.
-# Видео обрабатывается разными алгоритмами и моделями согласно заданного режима работы.
-# Папка models предназначена для хранения моделей.
-# Папка out_files предназначена для записи результатов (коротких роликов или изображений).
-# Параметры хранятся в файле settings.py
-# Функции - в файлах run.py и utils.py
-# Режим работы может быть задан параметром командной строки.
+# The program receives video from cameras via rtsp.
+# Video is processed by different algorithms and models according to the specified mode of operation.
+# The models folder is for storing models.
+# The out_files folder is for recording results (short clips or images).
+# Settings are stored in settings.py
+# Functions - in run.py and utils.py files
+# The mode of operation can be set with a command line parameter.
 #
 import sys
 #
@@ -17,9 +17,9 @@ import run
 
 
 # Process function
-def process(Operation_mode_text):
+def process(Operation_mode_string):
     """
-    :param Operation_mode_text: Operation mode text for resolving
+    :param Operation_mode_string: Operation mode text for resolving
     :return: None
     """
     # Environment preparation
@@ -31,7 +31,7 @@ def process(Operation_mode_text):
         print('Loaded active cameras: {}'.format(len(Cam_list)))
 
     # Parsing operation mode from text
-    Operation_mode, N_cols, N_rows = utils.get_operation_mode(Operation_mode_text)
+    Operation_mode, N_cols, N_rows = utils.get_operation_mode(Operation_mode_string)
     if VERBOSE:
         print('Operation mode starting: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
 
@@ -49,7 +49,7 @@ def process(Operation_mode_text):
             run.show_single_fps(Cam_list[0], W_frame, H_frame)
         case 'UniformCxR':
             run.show_uniform(Cam_list, W_frame, H_frame, N_cols, N_rows)
-        case 'Custom1CxR':
+        case 'Custom_CxR':
             run.show_custom1(Cam_list, W_frame, H_frame, N_cols, N_rows, 1)
         case 'test':
             # run.show_uniform(Cam_list, W_frame, H_frame, 5, 4)
@@ -64,10 +64,7 @@ if __name__ == '__main__':
     VERBOSE = settings.VERBOSE
     if DEBUG:
         print('DEBUG mode: on')
-    # Operating mode text may be replaced from command line args
-    Operation_mode_text = settings.Operation_mode_name if len(sys.argv) <= 1 else sys.argv[1]
-    if VERBOSE:
-        if len(sys.argv) > 1:
-            print('Try to resolve Operation mode from command line: {}'.format(Operation_mode_text))
+    # Operating mode string may be replaced from command line args
+    Operation_mode_string = settings.Operation_mode_string if len(sys.argv) <= 1 else sys.argv[1]
     # Run process
-    process(Operation_mode_text)
+    process(Operation_mode_string)

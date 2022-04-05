@@ -36,13 +36,13 @@ Cameras = [{'Cam_name': 'Cam01', 'Is_active': True, 'MD_enabled': True,
            {'Cam_name': 'Cam07', 'Is_active': True, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=7&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=7&subtype=1'},
-           {'Cam_name': 'Cam08', 'Is_active': True, 'MD_enabled': True,
+           {'Cam_name': 'Cam08', 'Is_active': False, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=8&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=8&subtype=1'},
-           {'Cam_name': 'Cam09', 'Is_active': True, 'MD_enabled': True,
+           {'Cam_name': 'Cam09', 'Is_active': False, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=9&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=9&subtype=1'},
-           {'Cam_name': 'Cam10', 'Is_active': True, 'MD_enabled': True,
+           {'Cam_name': 'Cam10', 'Is_active': False, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=10&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=10&subtype=1'},
            {'Cam_name': 'Cam11', 'Is_active': True, 'MD_enabled': True,
@@ -60,7 +60,7 @@ Cameras = [{'Cam_name': 'Cam01', 'Is_active': True, 'MD_enabled': True,
            {'Cam_name': 'Cam15', 'Is_active': True, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=15&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=15&subtype=1'},
-           {'Cam_name': 'Cam16', 'Is_active': True, 'MD_enabled': True,
+           {'Cam_name': 'Cam16', 'Is_active': False, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=16&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=16&subtype=1'},
            ]
@@ -80,19 +80,19 @@ Operation_modes = [{'Mode_name': 'Single_fps', 'Pipeline': [], 'Save': False, 'D
                     'Description': 'Single camera view with calculating FPS'},
                    {'Mode_name': 'UniformCxR', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Uniform template with CхR cells'},
-                   {'Mode_name': 'Custom1CxR', 'Pipeline': [], 'Save': False, 'Display': True,
+                   {'Mode_name': 'Custom_CxR', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Scaled Def_cam and some other cameras with event row(s)'},
                    {'Mode_name': 'test', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'For testing purpose'},
                    ]
 
 
-# Operation mode name
-# Operation_mode_name = 'Single_fps'
-# Operation_mode_name = 'UniformCxR'
-# Operation_mode_name = 'Custom1CxR'
-Operation_mode_name = 'test'
-
+# Operation mode string
+# Operation_mode_string = 'Single_fps'
+# Operation_mode_string = 'UniformCxR'
+# Operation_mode_string = 'Custom_CxR'
+# Operation_mode_string = 'test'
+Operation_mode_string = 'custom_4x4'
 
 # Columns and rows by default
 Def_cols = 5

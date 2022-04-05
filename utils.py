@@ -13,6 +13,7 @@ VERBOSE = settings.VERBOSE
 
 
 # A few things to do first
+# TODO: Is this list complete?
 def do_preparing():
     # Reading folder configuration from settings
     model_PATH = settings.model_PATH
@@ -44,45 +45,47 @@ def get_cam_list():
 
 
 # Reading operation mode from settings
-def get_operation_mode(Operation_mode_text):
+def get_operation_mode(Operation_mode_string):
     Operation_mode = None
-    # Try to find in settings
+    if VERBOSE:
+        print('Try to resolve Operation mode from: {}'.format(Operation_mode_string))
     for mode in settings.Operation_modes:
-        if mode['Mode_name'] == Operation_mode_text:
-            Operation_mode = mode  # operation mode assignment
+        # Try to find Mode_name in settings
+        if mode['Mode_name'] == Operation_mode_string:
+            Operation_mode = mode  # set operation mode
             N_cols, N_rows = settings.Def_cols, settings.Def_rows
+            # Return founded operation mode with default cols and rows from settings
             return Operation_mode, N_cols, N_rows
-    # Try to resolve pattern ViewCxR
-    if len(Operation_mode_text) >= 6:
-        if Operation_mode_text[:4] == 'View':
+        # Try to parse operation mode
+        if mode['Mode_name'][:7].lower() == Operation_mode_string[:7].lower():
+            Operation_mode = mode  # set operation mode
+            # Parsing cols and rows from string
+            string_to_parse = Operation_mode_string[7:].lower()
+            if (len(string_to_parse) < 3) or ('x' not in string_to_parse):
+                # Return founded operation mode with default cols and rows from settings
+                N_cols, N_rows = settings.Def_cols, settings.Def_rows
+                return Operation_mode, N_cols, N_rows
             #
-            Operation_mode = settings.Operation_modes[1]
+            idx_x = string_to_parse.index('x')
             try:
-                N_cols = int(Operation_mode_text[4])
+                N_cols = int(string_to_parse[:idx_x])
             except ValueError:
-                print('Impossible to use "{}" as N_cols, using defaults from settings'.format(Operation_mode_text[4]))
-                # Return mode ViewCxR with defaults N_cols and N_rows
+                print('Impossible to use "{}" as N_cols, using defaults from settings'.format(string_to_parse[:idx_x]))
+                # Return founded operation mode with default cols and rows from settings
                 N_cols, N_rows = settings.Def_cols, settings.Def_rows
                 return Operation_mode, N_cols, N_rows
             try:
-                N_rows = int(Operation_mode_text[6])
+                N_rows = int(string_to_parse[idx_x+1:])
             except ValueError:
-                print('Impossible to use "{}" as N_rows, using defaults from settings'.format(Operation_mode_text[6]))
-                # Return mode ViewCxR with defaults N_cols and N_rows
+                print('Impossible to use "{}" as N_rows, using defaults from settings'.format(string_to_parse[idx_x:]))
+                # Return founded operation mode with default cols and rows from settings
                 N_cols, N_rows = settings.Def_cols, settings.Def_rows
                 return Operation_mode, N_cols, N_rows
-            if N_cols > 0 and N_rows > 0:
-                # Return mode ViewCxR with parsed N_cols and N_rows
-                return Operation_mode, N_cols, N_rows
-            else:
-                print('Not allowed value(s): N_cols={0}, N_rows={1},'
-                      ' using defaults from settings'.format(N_cols, N_rows))
-                # Return mode ViewCxR with defaults N_cols and N_rows
-                N_cols, N_rows = settings.Def_cols, settings.Def_rows
-                return Operation_mode, N_cols, N_rows
-
+            if DEBUG:
+                print('Parsed N_cols={}, N_rows={}'.format(N_cols, N_rows))
+            # Return founded operation mode with parsed cols and rows
+            return Operation_mode, N_cols, N_rows
     assert Operation_mode is not None, 'Operation_mode not found'
-    # return Operation_mode, N_cols, N_rows
 
 
 # Get screen resolution info
@@ -91,7 +94,7 @@ def get_screen_resolution():
     root = tk.Tk()
     W = root.winfo_screenwidth()
     H = root.winfo_screenheight()
-    # TODO: What is the minimum screen resolution allowed?
+    # TODO: What is the minimum acceptable screen resolution that can be allowed?
     if W < 1024 | H < 768:
         W = settings.Def_W
         H = settings.Def_H
