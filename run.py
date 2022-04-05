@@ -13,7 +13,7 @@ DEBUG = settings.DEBUG
 VERBOSE = settings.VERBOSE
 
 
-# Show video from one with calculating FPS
+# Show video from one camera with calculating FPS
 def show_single_fps(Camera, W=1280, H=800):
     capture = cv.VideoCapture(Camera['RTSP'])
     # Source size
@@ -67,7 +67,7 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
         SOURCE_list = [cam['RTSP_sub'] for cam in Cam_list]
     else:
         SOURCE_list = [cam['RTSP'] for cam in Cam_list]
-    SOURCE_list = SOURCE_list[:N_cells]  # we do not need more cameras than we have cells
+    SOURCE_list = SOURCE_list[:N_cells]  # we don't need more cameras than we have cells
 
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
 
@@ -96,7 +96,7 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
                 # Inkrement error count
                 error_count_list[idx] += 1
                 # Get previous frame
-                frame = frame_list_prev[idx]
+                frame = frame_list_prev[idx].copy()
                 # If this is first error put text on the frame
                 if error_count_list[idx] == 1:
                     cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
@@ -127,23 +127,27 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
 
 # Show video custom template Def_cam + some Cameras + event's line
 # TODO: Revise code !
-def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, N_events_line=1):
+def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Event_line=True, Face_line=True):
     # Preparing template
     w, h = int(W / N_cols), int(H / N_rows)
-    # Def_scale - scale factor for Def_cam
-    Def_scale = N_rows - N_events_line  # Line at bottom reserved for events
-    assert N_events_line > 0 and Def_scale > 0, 'Must have N_events_line>0 and N_rows>N_events_line'
-    Def_w, Def_h = Def_scale * w, Def_scale * h
-    N_cells = int(N_cols * N_rows)
+    # Lines reserved for events
+    Bottom_lines = int(Event_line) + int(Face_line)
+    # Scale factor for Def_cam
+    Def_cam_scale = N_rows - Bottom_lines  # Def_cam will be the size of all rows except those reserved for event lines
+    #
+    Def_cam_w, Def_cam_h = Def_cam_scale * w, Def_cam_scale * h
+    #
+    N_places = (N_cols-Def_cam_scale) * Def_cam_scale + 1  # how many cameras are placed including Def_cam
+    # ToDo: What values N_cols and N_rows are allowed?
     assert N_cols > 1 and N_rows > 1, 'Custom template must be at least 2x2 cells'
 
-    SOURCE_list = [Cam_list[0]['RTSP']] + [cam['RTSP_sub'] for cam in Cam_list[1:]]
-    SOURCE_list = SOURCE_list[:(N_cols-Def_scale)*Def_scale+1]  # we need cameras more than we have places for it
+    SOURCE_list = [Cam_list[0]['RTSP']] + [cam['RTSP_sub'] for cam in Cam_list[1:]]  # Def_cam uses main stream
+    SOURCE_list = SOURCE_list[:N_places]  # we don't need cameras more than we have places
 
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
 
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
-    def_cam_black_frame = np.zeros((Def_h, Def_w, 3), dtype=np.uint8)
+    def_cam_black_frame = np.zeros((Def_cam_h, Def_cam_w, 3), dtype=np.uint8)
 
     frame_list_prev = [def_cam_black_frame] + [black_frame for _ in range(len(capture_list)-1)]
     error_count_list = [0 for _ in range(len(capture_list))]
@@ -160,7 +164,7 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, N_events_line=1):
             isTrue, frame = cap.read()
             if isTrue:
                 if idx == 0:
-                    frame = cv.resize(frame, (Def_w, Def_h), interpolation=cv.INTER_AREA)
+                    frame = cv.resize(frame, (Def_cam_w, Def_cam_h), interpolation=cv.INTER_AREA)
                 else:
                     frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
                 if DEBUG:
@@ -171,7 +175,7 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, N_events_line=1):
                 # Inkrement error count
                 error_count_list[idx] += 1
                 # Get previous frame
-                frame = frame_list_prev[idx]
+                frame = frame_list_prev[idx].copy()
                 # If this is first error put text on the frame
                 if error_count_list[idx] == 1:
                     cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
@@ -186,15 +190,21 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, N_events_line=1):
 
         # Copying current frame_list
         frame_list_prev = frame_list
-        # If we don't have enough Active cameras for all cells
-        for _ in range(N_cells - len(frame_list)):
+        # If we don't have enough cameras for all cells
+        for _ in range(N_places - len(frame_list)):
             frame_list.append(black_frame)
+        #
+        event_list = [black_frame for _ in range(N_cols)]
+        face_list = [black_frame for _ in range(N_cols)]
+
         # Preparing full frame
-        right_part = utils.concat_from_list(frame_list[1:], N_cols-Def_scale, Def_scale)
+        right_part = utils.concat_from_list(frame_list[1:], N_cols-Def_cam_scale, Def_cam_scale)
         upper_part = np.concatenate((frame_list[0], right_part), axis=1)
-        # events_lines = np.concatenate(frame_list[-N_cols:], axis=1)  # if ONE events_line
-        events_lines = utils.concat_from_list(frame_list[-N_cols * N_events_line:], N_cols, N_events_line)
-        full_frame = np.concatenate((upper_part, events_lines), axis=0)
+
+        events = utils.concat_from_list(event_list, N_cols, 1)
+        faces = utils.concat_from_list(face_list, N_cols, 1)
+
+        full_frame = np.concatenate((upper_part, events, faces), axis=0)
         cv.imshow(Window_name, full_frame)
 
         if cv.waitKey(20) & 0xFF == ord('q'):

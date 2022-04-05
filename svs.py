@@ -19,7 +19,7 @@ import run
 # Process function
 def process(Operation_mode_string):
     """
-    :param Operation_mode_string: Operation mode text for resolving
+    :param Operation_mode_string: Text string from which the operating mode is taken
     :return: None
     """
     # Environment preparation
@@ -27,33 +27,34 @@ def process(Operation_mode_string):
 
     # Loading cameras configurations
     Cam_list = utils.get_cam_list()
-    if VERBOSE:
-        print('Loaded active cameras: {}'.format(len(Cam_list)))
 
     # Parsing operation mode from text
     Operation_mode, N_cols, N_rows = utils.get_operation_mode(Operation_mode_string)
-    if VERBOSE:
-        print('Operation mode starting: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
 
     # Get screen resolution info
     W, H = utils.get_screen_resolution()
-    if VERBOSE:
-        print('Screen resolution: ({},{})'.format(W, H))
     # Set frame size
     W_frame, H_frame = int(W * 0.85), int(H * 0.85)
 
     # Case switch for running in selected operation mode
     match Operation_mode['Mode_name']:
         case 'Single_fps':
-            # Function for single camera view with calculating FPS
+            #
+            print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
             run.show_single_fps(Cam_list[0], W_frame, H_frame)
         case 'UniformCxR':
+            #
+            print('Operation mode starting: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
             run.show_uniform(Cam_list, W_frame, H_frame, N_cols, N_rows)
         case 'Custom_CxR':
+            #
+            print('Operation mode starting: {}, C={}, R={}, E={}'.format(Operation_mode['Mode_name'], N_cols, N_rows, 1))
             run.show_custom1(Cam_list, W_frame, H_frame, N_cols, N_rows, 1)
         case 'test':
-            # run.show_uniform(Cam_list, W_frame, H_frame, 5, 4)
-            run.show_custom1(Cam_list, W_frame, H_frame, 6, 4, 2)
+            #
+            print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
+            # run.show_uniform(Cam_list, W_frame, H_frame, 4, 4)
+            run.show_custom1(Cam_list, W_frame, H_frame, 9, 4, True, True)
         case _:
             print('Wrong operation mode (function not found).')
 

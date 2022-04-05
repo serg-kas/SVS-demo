@@ -81,21 +81,21 @@ Operation_modes = [{'Mode_name': 'Single_fps', 'Pipeline': [], 'Save': False, 'D
                    {'Mode_name': 'UniformCxR', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Uniform template with CхR cells'},
                    {'Mode_name': 'Custom_CxR', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': 'Scaled Def_cam and some other cameras with event row(s)'},
+                    'Description': 'Scaled Def_cam view and some other cameras with event row(s)'},
                    {'Mode_name': 'test', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'For testing purpose'},
                    ]
 
 
 # Operation mode string
-# Operation_mode_string = 'Single_fps'
-# Operation_mode_string = 'UniformCxR'
-# Operation_mode_string = 'Custom_CxR'
-# Operation_mode_string = 'test'
-Operation_mode_string = 'custom_4x4'
+# Operation_mode_string = 'single_fps'
+# Operation_mode_string = 'uniform4x4'
+# Operation_mode_string = 'custom_5x4'
+Operation_mode_string = 'test'
+
 
 # Columns and rows by default
-Def_cols = 5
+Def_cols = 4
 Def_rows = 4
 
 

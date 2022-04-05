@@ -13,7 +13,7 @@ VERBOSE = settings.VERBOSE
 
 
 # A few things to do first
-# TODO: Is this list complete?
+# TODO: functionality may change
 def do_preparing():
     # Reading folder configuration from settings
     model_PATH = settings.model_PATH
@@ -33,7 +33,7 @@ def get_cam_list():
         if cam['Is_active']:
             if cam['Cam_name'] == settings.Def_cam_name:
                 Def_cam = cam  # default camera assignment
-                if DEBUG:
+                if VERBOSE:
                     print('Default camera is: {}'.format(Def_cam['Cam_name']))
             else:
                 Cam_list.append(cam)
@@ -41,14 +41,18 @@ def get_cam_list():
     assert Def_cam is not None, 'Must have Def_cam assigned'
     # Insert Def_cam in first place
     Cam_list.insert(0, Def_cam)
+    if VERBOSE:
+        print('Loaded active cameras: {}'.format(len(Cam_list)))
     return Cam_list
 
 
 # Reading operation mode from settings
 def get_operation_mode(Operation_mode_string):
+
     Operation_mode = None
     if VERBOSE:
-        print('Try to resolve Operation mode from: {}'.format(Operation_mode_string))
+        print('Trying to resolve Operation mode from string: {}'.format(Operation_mode_string))
+
     for mode in settings.Operation_modes:
         # Try to find Mode_name in settings
         if mode['Mode_name'] == Operation_mode_string:
@@ -94,6 +98,8 @@ def get_screen_resolution():
     root = tk.Tk()
     W = root.winfo_screenwidth()
     H = root.winfo_screenheight()
+    if DEBUG:
+        print('Screen resolution: ({},{})'.format(W, H))
     # TODO: What is the minimum acceptable screen resolution that can be allowed?
     if W < 1024 | H < 768:
         W = settings.Def_W
