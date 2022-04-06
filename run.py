@@ -109,7 +109,7 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
                         print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
             frame_list.append(frame)
 
-        # Copying current frame_list
+        # Save current frame_list
         frame_list_prev = frame_list
         # If we don't have enough cameras for all cells
         for _ in range(N_cells - len(frame_list)):
@@ -125,19 +125,18 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
     cv.destroyAllWindows()
 
 
-# Show video custom template Def_cam + some Cameras + event's line
-# TODO: Revise code !
+# Show video custom template Def_cam + some other cams + event/face lines
 def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Event_line=True, Face_line=True):
     # Preparing template
     w, h = int(W / N_cols), int(H / N_rows)
-    # Lines reserved for events
+    # Lines reserved for events/faces
     Bottom_lines = int(Event_line) + int(Face_line)
-    # Scale factor for Def_cam
-    Def_cam_scale = N_rows - Bottom_lines  # Def_cam will be the size of all rows except those reserved for event lines
+    # Def_cam will be the size of all rows except those reserved for event lines
+    Def_cam_size = N_rows - Bottom_lines
     #
-    Def_cam_w, Def_cam_h = Def_cam_scale * w, Def_cam_scale * h
+    Def_cam_w, Def_cam_h = Def_cam_size * w, Def_cam_size * h
     #
-    N_places = (N_cols-Def_cam_scale) * Def_cam_scale + 1  # how many cameras are placed including Def_cam
+    N_places = (N_cols-Def_cam_size) * Def_cam_size + 1  # how many cameras are placed on frame including Def_cam
     # ToDo: What values N_cols and N_rows are allowed?
     assert N_cols > 1 and N_rows > 1, 'Custom template must be at least 2x2 cells'
 
@@ -188,22 +187,23 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Event_line=True, F
                         print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
             frame_list.append(frame)
 
-        # Copying current frame_list
+        # Save current frame_list
         frame_list_prev = frame_list
         # If we don't have enough cameras for all cells
         for _ in range(N_places - len(frame_list)):
             frame_list.append(black_frame)
-        #
+
+        # TODO: Now there are stubs until the necessary functions are made
         event_list = [black_frame for _ in range(N_cols)]
         face_list = [black_frame for _ in range(N_cols)]
 
         # Preparing full frame
-        right_part = utils.concat_from_list(frame_list[1:], N_cols-Def_cam_scale, Def_cam_scale)
+        right_part = utils.concat_from_list(frame_list[1:], N_cols-Def_cam_size, Def_cam_size)
         upper_part = np.concatenate((frame_list[0], right_part), axis=1)
-
+        #
         events = utils.concat_from_list(event_list, N_cols, 1)
         faces = utils.concat_from_list(face_list, N_cols, 1)
-
+        #
         full_frame = np.concatenate((upper_part, events, faces), axis=0)
         cv.imshow(Window_name, full_frame)
 
