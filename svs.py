@@ -54,8 +54,9 @@ def process(Operation_mode_string):
             #
             print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
             # run.show_uniform(Cam_list, W_frame, H_frame, 4, 4)
-            # run.show_custom1(Cam_list, W_frame, H_frame, 9, 4, True, True)
-            run.show_custom1(Cam_list, W_frame, H_frame, 4, 3, True, True)
+            # run.show_uniform_fps(Cam_list, W_frame, H_frame, 4, 4)
+            # run.show_custom1(Cam_list, W_frame, H_frame, 4, 3, True, True)
+            run.show_custom1_fps(Cam_list, W_frame, H_frame, 6, 4, True, False)
         case _:
             print('Wrong operation mode (function not found).')
 
