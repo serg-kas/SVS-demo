@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="refactoring custom template function">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="show_custom1 needs some fixing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
@@ -246,7 +246,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649201454862</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="show_custom1 needs some fixing">
+      <created>1649225030797</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1649225030797</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -284,6 +291,7 @@
     <MESSAGE value="Functions and op.modes renamed" />
     <MESSAGE value="Operation mode parsing function is ready" />
     <MESSAGE value="refactoring custom template function" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring custom template function" />
+    <MESSAGE value="show_custom1 needs some fixing" />
+    <option name="LAST_COMMIT_MESSAGE" value="show_custom1 needs some fixing" />
   </component>
 </project>

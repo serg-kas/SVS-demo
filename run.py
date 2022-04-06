@@ -60,7 +60,7 @@ def show_single_fps(Camera, W=1280, H=800):
 def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2):
     # Preparing template
     N_cells = int(N_cols * N_rows)
-    assert N_cells > 0, 'Template must be at least 1 cell'
+    assert N_cells > 0, 'Uniform template must be at least 1 cell in size'
     w, h = int(W / N_cols), int(H / N_rows)
 
     if N_cells > 4:
@@ -131,16 +131,16 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Event_line=True, F
     w, h = int(W / N_cols), int(H / N_rows)
     # Lines reserved for events/faces
     Bottom_lines = int(Event_line) + int(Face_line)
+    assert Bottom_lines > 0, 'Custom template must have at least one line for events or faces'
+    assert N_cols > 1 and N_rows > Bottom_lines, 'Custom template must be at least 2x(Bottom_lines+1) cells in size'
     # Def_cam will be the size of all rows except those reserved for event lines
     Def_cam_size = N_rows - Bottom_lines
     #
     Def_cam_w, Def_cam_h = Def_cam_size * w, Def_cam_size * h
     #
     N_places = (N_cols-Def_cam_size) * Def_cam_size + 1  # how many cameras are placed on frame including Def_cam
-    # ToDo: What values N_cols and N_rows are allowed?
-    assert N_cols > 1 and N_rows > 1, 'Custom template must be at least 2x2 cells'
-
-    SOURCE_list = [Cam_list[0]['RTSP']] + [cam['RTSP_sub'] for cam in Cam_list[1:]]  # Def_cam uses main stream
+    #
+    SOURCE_list = [Cam_list[0]['RTSP']] + [cam['RTSP_sub'] for cam in Cam_list[1:]]  # Def_cam uses RTSP main stream
     SOURCE_list = SOURCE_list[:N_places]  # we don't need cameras more than we have places
 
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
