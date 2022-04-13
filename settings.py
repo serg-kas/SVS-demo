@@ -76,7 +76,9 @@ Def_cam_name = 'Cam11'
 # Pipeline - list of models that process the image
 # Save - save results (events)
 # Display - show video
-Operation_modes = [{'Mode_name': 'Single_fps', 'Pipeline': [], 'Save': False, 'Display': True,
+Operation_modes = [{'Mode_name': 'Single', 'Pipeline': [], 'Save': False, 'Display': True,
+                    'Description': 'Single camera view'},
+                   {'Mode_name': 'Single_fps', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Single camera view with calculating FPS'},
                    {'Mode_name': 'UniformCxR', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Uniform template with CхR cells'},

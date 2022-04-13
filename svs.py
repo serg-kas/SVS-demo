@@ -38,10 +38,16 @@ def process(Operation_mode_string):
 
     # Case switch for running in selected operation mode
     match Operation_mode['Mode_name']:
-        case 'Single_fps':
+        case 'Single':
             #
             print('Operation mode: {}'.format(Operation_mode['Mode_name']))
-            run.show_single_fps(Cam_list[0], W_frame, H_frame)
+            run.show_single(Cam_list[0], W_frame, H_frame, FPS_calc=False)
+
+        case 'Single_fps':
+            #
+            print('Operation mode: {} with FPS calculation'.format(Operation_mode['Mode_name']))
+            run.show_single(Cam_list[0], W_frame, H_frame, FPS_calc=True)
+
         case 'UniformCxR':
             #
             print('Operation mode: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
@@ -53,10 +59,11 @@ def process(Operation_mode_string):
         case 'test':
             #
             print('Operation mode: {}'.format(Operation_mode['Mode_name']))
+            run.show_single(Cam_list[0], W_frame, H_frame, False)
             # run.show_uniform(Cam_list, W_frame, H_frame, 4, 4)
             # run.show_uniform_fps(Cam_list, W_frame, H_frame, 4, 4)
             # run.show_custom1(Cam_list, W_frame, H_frame, 4, 3, True, True)
-            run.show_custom1_fps(Cam_list, W_frame, H_frame, 6, 4, True, False)
+            # run.show_custom1_fps(Cam_list, W_frame, H_frame, 6, 4, True, False)
         case _:
             print('Error starting operation mode (function not found).')
 

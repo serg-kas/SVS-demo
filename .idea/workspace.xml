@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="minimal fixes in settings.py">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="minimal fixes in utils.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,7 +305,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649877333913</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="minimal fixes in utils.py">
+      <created>1649881116742</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1649881116742</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -319,7 +327,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changing the logic of loading cameras" />
     <MESSAGE value="New function for getting screen resolution info" />
     <MESSAGE value="FPS calculating is done.&#10;View4 function started" />
     <MESSAGE value="View2x2 function done" />
@@ -344,6 +351,7 @@
     <MESSAGE value="minimal improvements in svs.py" />
     <MESSAGE value="minimal fixes in svs.py" />
     <MESSAGE value="minimal fixes in settings.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="minimal fixes in settings.py" />
+    <MESSAGE value="minimal fixes in utils.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="minimal fixes in utils.py" />
   </component>
 </project>

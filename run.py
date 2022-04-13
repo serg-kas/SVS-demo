@@ -8,13 +8,13 @@ import time
 import settings
 import utils
 
-# Debug and Verbose flags
-DEBUG = settings.DEBUG
+# Verbose and Debug options
 VERBOSE = settings.VERBOSE
+DEBUG = settings.DEBUG
 
 
-# Show video from one camera with calculating FPS
-def show_single_fps(Camera, W=1280, H=800):
+# Show video from one camera with the possibility of calculation FPS
+def show_single(Camera, W=1280, H=800, FPS_calc=True):
     capture = cv.VideoCapture(Camera['RTSP'])
     # Source size
     capture_width = int(capture.get(cv.CAP_PROP_FRAME_WIDTH))
@@ -23,32 +23,35 @@ def show_single_fps(Camera, W=1280, H=800):
         print('Source camera resolution: ({}, {})'.format(capture_width, capture_height))
     #
     Window_name = Camera['Cam_name'] + ': ' + Camera['RTSP']
-
     # Calculate FPS after N_frames
-    N_frames = 50
-    frames_count = 0
-    fps = 'Calculating fps...'
-    font = cv.FONT_HERSHEY_SIMPLEX  # font to display FPS
-    fontScale = 3  # TODO: Get optimal font scale and text position
-    prev_time = time.time()  # record the time when we processed last frame
-
+    if FPS_calc:
+        N_frames = 50
+        frames_count = 0
+        fps = 'Calculating fps...'
+        font = cv.FONT_HERSHEY_SIMPLEX  # font to display FPS
+        fontScale = 3  # TODO: Get optimal font scale and text position
+        prev_time = time.time()  # record the time when we processed last frame
+    #
     while True:
         isTrue, frame = capture.read()
         #
-        if frames_count == N_frames-1:
-            new_time = time.time()  # time when we finish processing N_frames
-            # Calculating the fps
-            fps = 1 / (new_time - prev_time) * N_frames
-            fps = int(fps)
-            prev_time = new_time
-            frames_count = 0
-        frames_count += 1
+        if FPS_calc:
+            if frames_count == N_frames-1:
+                new_time = time.time()  # time when we finish processing N_frames
+                # Calculating the fps
+                fps = 1 / (new_time - prev_time) * N_frames
+                fps = int(fps)
+                prev_time = new_time
+                frames_count = 0
+            frames_count += 1
         #
         frame = cv.resize(frame, (W, H), interpolation=cv.INTER_AREA)
-        # Put FPS on the frame and show it
-        cv.putText(frame, str(fps), (7, 70), font, fontScale, (100, 255, 0), 3, cv.LINE_AA)
+        #
+        if FPS_calc:
+            cv.putText(frame, str(fps), (7, 70), font, fontScale, (100, 255, 0), 3, cv.LINE_AA)
+        #
         cv.imshow(Window_name, frame)
-
+        #
         if cv.waitKey(20) & 0xFF == ord('q'):
             break
     capture.release()
