@@ -40,25 +40,25 @@ def process(Operation_mode_string):
     match Operation_mode['Mode_name']:
         case 'Single_fps':
             #
-            print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
+            print('Operation mode: {}'.format(Operation_mode['Mode_name']))
             run.show_single_fps(Cam_list[0], W_frame, H_frame)
         case 'UniformCxR':
             #
-            print('Operation mode starting: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
+            print('Operation mode: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
             run.show_uniform(Cam_list, W_frame, H_frame, N_cols, N_rows)
         case 'Custom_CxR':
             #
-            print('Operation mode starting: {}, C={}, R={}, E={}'.format(Operation_mode['Mode_name'], N_cols, N_rows, 1))
+            print('Operation mode: {}, C={}, R={}, E={}'.format(Operation_mode['Mode_name'], N_cols, N_rows, 1))
             run.show_custom1(Cam_list, W_frame, H_frame, N_cols, N_rows, 1)
         case 'test':
             #
-            print('Operation mode starting: {}'.format(Operation_mode['Mode_name']))
+            print('Operation mode: {}'.format(Operation_mode['Mode_name']))
             # run.show_uniform(Cam_list, W_frame, H_frame, 4, 4)
             # run.show_uniform_fps(Cam_list, W_frame, H_frame, 4, 4)
             # run.show_custom1(Cam_list, W_frame, H_frame, 4, 3, True, True)
             run.show_custom1_fps(Cam_list, W_frame, H_frame, 6, 4, True, False)
         case _:
-            print('Wrong operation mode (function not found).')
+            print('Error starting operation mode (function not found).')
 
 
 if __name__ == '__main__':

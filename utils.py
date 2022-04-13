@@ -7,13 +7,13 @@ import os
 #
 import settings
 
-# Debug and  Verbose flags
-DEBUG = settings.DEBUG
+# Verbose and Debug options
 VERBOSE = settings.VERBOSE
+DEBUG = settings.DEBUG
 
 
-# A few things to do first
-# TODO: functionality may change
+# A few things to do in first
+# TODO: functionality is undefined and may change in the future
 def do_preparing():
     # Reading folder configuration from settings
     model_PATH = settings.model_PATH
@@ -34,12 +34,11 @@ def get_cam_list():
             if cam['Cam_name'] == settings.Def_cam_name:
                 Def_cam = cam  # default camera assignment
                 if VERBOSE:
-                    print('Default camera is: {}'.format(Def_cam['Cam_name']))
+                    print('Default camera: {}'.format(Def_cam['Cam_name']))
             else:
                 Cam_list.append(cam)
-
-    assert Def_cam is not None, 'Must have Def_cam assigned'
     # Insert Def_cam in first place
+    assert Def_cam is not None, 'Must have Def_cam assigned'
     Cam_list.insert(0, Def_cam)
     if VERBOSE:
         print('Loaded active cameras: {}'.format(len(Cam_list)))
@@ -48,11 +47,9 @@ def get_cam_list():
 
 # Reading operation mode from settings
 def get_operation_mode(Operation_mode_string):
-
     Operation_mode = None
     if VERBOSE:
         print('Trying to resolve Operation mode from string: {}'.format(Operation_mode_string))
-
     for mode in settings.Operation_modes:
         # Try to find Mode_name in settings
         if mode['Mode_name'] == Operation_mode_string:
@@ -69,7 +66,6 @@ def get_operation_mode(Operation_mode_string):
                 # Return founded operation mode with default cols and rows from settings
                 N_cols, N_rows = settings.Def_cols, settings.Def_rows
                 return Operation_mode, N_cols, N_rows
-            #
             idx_x = string_to_parse.index('x')
             try:
                 N_cols = int(string_to_parse[:idx_x])
@@ -86,7 +82,7 @@ def get_operation_mode(Operation_mode_string):
                 N_cols, N_rows = settings.Def_cols, settings.Def_rows
                 return Operation_mode, N_cols, N_rows
             if DEBUG:
-                print('Parsed N_cols={}, N_rows={}'.format(N_cols, N_rows))
+                print('Parsed: Mode_name={}, N_cols={}, N_rows={}'.format(mode['Mode_name'], N_cols, N_rows))
             # Return founded operation mode with parsed cols and rows
             return Operation_mode, N_cols, N_rows
     assert Operation_mode is not None, 'Operation_mode not found'
@@ -101,7 +97,7 @@ def get_screen_resolution():
     if DEBUG:
         print('Screen resolution: ({},{})'.format(W, H))
     # TODO: What is the minimum acceptable screen resolution that can be allowed?
-    if W < 1024 | H < 768:
+    if W < 1024 or H < 768:
         W = settings.Def_W
         H = settings.Def_H
     return W, H
@@ -126,6 +122,5 @@ def get_screen_resolution():
 def concat_from_list(frame_list, N_cols, N_rows):
     row_list = []
     for r in range(N_rows):
-        # row_list.append(np.concatenate([frame_list[N_cols * r + c] for c in range(N_cols)], axis=1))
         row_list.append(np.concatenate(frame_list[N_cols * r: N_cols * (r + 1)], axis=1))
     return np.concatenate(row_list, axis=0)
