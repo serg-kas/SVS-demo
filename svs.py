@@ -19,7 +19,7 @@ import run
 # Process function
 def process(Operation_mode_string):
     """
-    :param Operation_mode_string: Text string from which the operating mode is taken
+    :param Operation_mode_string: Text string from which the operating mode is parsed
     :return: None
     """
     # Environment preparation
@@ -33,7 +33,7 @@ def process(Operation_mode_string):
 
     # Get screen resolution info
     W, H = utils.get_screen_resolution()
-    # Set frame size
+    # Set full frame size
     W_frame, H_frame = int(W * 0.85), int(H * 0.85)
 
     # Case switch for running in selected operation mode
@@ -62,12 +62,14 @@ def process(Operation_mode_string):
 
 
 if __name__ == '__main__':
-    # Debug and verbose flags
-    DEBUG = settings.DEBUG
+    # Verbose and Debug options
     VERBOSE = settings.VERBOSE
+    if VERBOSE:
+        print('Welcome, we are starting.')
+    DEBUG = settings.DEBUG
     if DEBUG:
         print('DEBUG mode: on')
-    # Operating mode string may be replaced from command line args
+    # Operating_mode_string may be replaced from command line arg
     Operation_mode_string = settings.Operation_mode_string if len(sys.argv) <= 1 else sys.argv[1]
     # Run process
     process(Operation_mode_string)
