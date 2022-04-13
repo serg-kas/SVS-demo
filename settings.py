@@ -1,9 +1,9 @@
 #
 # Module for storing settings, options, etc.
 #
-# Debug and verbose flags
-DEBUG = True
+# Verbose and Debug flags
 VERBOSE = True
+DEBUG = True
 
 
 # Models folder
@@ -14,7 +14,7 @@ out_PATH = 'out_files'
 
 # Cameras configuration.
 # You can save several cameras to use some of them by using Is_active parameter
-# Put RTSP string with user:password if needed.
+# Put RTSP url string with user:password if needed.
 Cameras = [{'Cam_name': 'Cam01', 'Is_active': True, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=1&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=1&subtype=1'},
@@ -64,8 +64,6 @@ Cameras = [{'Cam_name': 'Cam01', 'Is_active': True, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=16&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=16&subtype=1'},
            ]
-
-
 
 
 # Default camera name
