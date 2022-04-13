@@ -65,7 +65,7 @@ if __name__ == '__main__':
     # Verbose and Debug options
     VERBOSE = settings.VERBOSE
     if VERBOSE:
-        print('Welcome, we are starting.')
+        print('Welcome, we are starting...')
     DEBUG = settings.DEBUG
     if DEBUG:
         print('DEBUG mode: on')
