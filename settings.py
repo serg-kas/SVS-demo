@@ -78,8 +78,6 @@ Def_cam_name = 'Cam11'
 # Display - show video
 Operation_modes = [{'Mode_name': 'Single', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Single camera view'},
-                   {'Mode_name': 'Single_fps', 'Pipeline': [], 'Save': False, 'Display': True,
-                    'Description': 'Single camera view with calculating FPS'},
                    {'Mode_name': 'UniformCxR', 'Pipeline': [], 'Save': False, 'Display': True,
                     'Description': 'Uniform template with CхR cells'},
                    {'Mode_name': 'Custom_CxR', 'Pipeline': [], 'Save': False, 'Display': True,
@@ -90,7 +88,7 @@ Operation_modes = [{'Mode_name': 'Single', 'Pipeline': [], 'Save': False, 'Displ
 
 
 # Operation mode string
-# Operation_mode_string = 'single_fps'
+# Operation_mode_string = 'single'
 # Operation_mode_string = 'uniform4x4'
 # Operation_mode_string = 'custom_5x4'
 Operation_mode_string = 'test'
@@ -104,6 +102,15 @@ Def_rows = 4
 # Screen resolution by default
 Def_W = 1280
 Def_H = 800
+
+
+# Options for Custom_CxR template
+Events_line = True
+Faces_line = True
+
+
+# Option for Single and UniformCxR templates
+FPS_calc = True
 
 
 # After how many errors reset video capture

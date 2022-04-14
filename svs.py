@@ -41,30 +41,27 @@ def process(Operation_mode_string):
         case 'Single':
             #
             print('Operation mode: {}'.format(Operation_mode['Mode_name']))
-            run.show_single(Cam_list[0], W_frame, H_frame)
-
-        case 'Single_fps':
-            #
-            print('Operation mode: {} with FPS calculation'.format(Operation_mode['Mode_name']))
-            run.show_single(Cam_list[0], W_frame, H_frame, FPS_calc=True)
+            run.show_single(Cam_list[0], W_frame, H_frame, FPS_calc=settings.FPS_calc)
 
         case 'UniformCxR':
             #
             print('Operation mode: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
-            run.show_uniform(Cam_list, W_frame, H_frame, N_cols, N_rows)
+            run.show_uniform(Cam_list, W_frame, H_frame, N_cols, N_rows, FPS_calc=settings.FPS_calc)
         case 'Custom_CxR':
             #
-            print('Operation mode: {}, C={}, R={}, E={}'.format(Operation_mode['Mode_name'], N_cols, N_rows, 1))
-            run.show_custom1(Cam_list, W_frame, H_frame, N_cols, N_rows, 1)
+            Events_line, Faces_line = settings.Events_line, settings.Faces_line
+            print('Operation mode: {}, C={}, R={}, E={}, F={}'.format(Operation_mode['Mode_name'], N_cols, N_rows, Events_line, Faces_line))
+            run.show_custom1(Cam_list, W_frame, H_frame, N_cols, N_rows, Events_line, Faces_line)
 
         case 'test':
             #
             print('Operation mode: {}'.format(Operation_mode['Mode_name']))
-            # run.show_single(Cam_list[0], W_frame, H_frame, True)
-            # run.show_uniform(Cam_list, W_frame, H_frame, 4, 4)
-            run.show_uniform_fps(Cam_list, W_frame, H_frame, 4, 4, FPS_calc=True)
-            # run.show_custom1(Cam_list, W_frame, H_frame, 4, 3, True, True)
-            # run.show_custom1_fps(Cam_list, W_frame, H_frame, 6, 4, True, False)
+            #
+            # run.show_uniform_fps_cells(Cam_list, W_frame, H_frame, N_cols=4, N_rows=4, FPS_calc=True)
+            #
+            run.show_custom1(Cam_list, W_frame, H_frame, N_cols=5, N_rows=5, Events_line=True, Faces_line=True)
+            #
+
         case _:
             print('Error starting operation mode (function not found).')
 
