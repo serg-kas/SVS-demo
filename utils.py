@@ -1,6 +1,7 @@
 #
 # Helper functions module
 #
+import cv2 as cv
 import numpy as np
 import tkinter as tk  # being used for get screen resolution
 import os
@@ -103,19 +104,17 @@ def get_screen_resolution():
     return W, H
 
 
-#
-# def get_optimal_font_scale(text, width):
-#
-#     for scale in reversed(range(0, 60, 1)):
-#         textSize = cv2.getTextSize(text, fontFace=cv2.FONT_HERSHEY_DUPLEX, fontScale=scale/10, thickness=1)
-#         new_width = textSize[0][0]
-#         if (new_width <= width):
-#             return scale/10
-#     return 1
-#
+# Get optimal font scale
 # fontScale = 3*(img.shape[1]//6)
 # font_size = get_optimal_font_scale(text, fontScale)
-# cv2.putText(img, text, org, font, font_size, color, thickness, cv2.LINE_AA)
+# cv.putText(img, text, org, font, font_size, color, thickness, cv2.LINE_AA)
+def get_optimal_font_scale(text, width):
+    for scale in reversed(range(0, 60, 1)):
+        textSize = cv.getTextSize(text, fontFace=cv.FONT_HERSHEY_SIMPLEX, fontScale=scale/10, thickness=3)
+        new_width = textSize[0][0]
+        if new_width <= width:
+            return scale/10
+    return 1
 
 
 # Concatenation list of arrays

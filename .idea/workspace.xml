@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="new uniform function with fps for each cap">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="code review clean up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -326,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649888984639</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="code review clean up">
+      <created>1649944964981</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1649944964981</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -341,7 +348,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="View2x2 function done" />
     <MESSAGE value="View4x4 function done" />
     <MESSAGE value="In View4x4 function errors from rtsp capture handling" />
     <MESSAGE value="In View4x4 use sub stream indeed of main" />
@@ -366,6 +372,7 @@
     <MESSAGE value="minimal fixes in utils.py" />
     <MESSAGE value="new single view function with FPS_calc parameter" />
     <MESSAGE value="new uniform function with fps for each cap" />
-    <option name="LAST_COMMIT_MESSAGE" value="new uniform function with fps for each cap" />
+    <MESSAGE value="code review clean up" />
+    <option name="LAST_COMMIT_MESSAGE" value="code review clean up" />
   </component>
 </project>

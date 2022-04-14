@@ -57,9 +57,9 @@ def process(Operation_mode_string):
             #
             print('Operation mode: {}'.format(Operation_mode['Mode_name']))
             #
-            # run.show_uniform_fps_cells(Cam_list, W_frame, H_frame, N_cols=4, N_rows=4, FPS_calc=True)
+            run.show_uniform_fps_cells(Cam_list, W_frame, H_frame, N_cols=4, N_rows=4, FPS_calc=True)
             #
-            run.show_custom1(Cam_list, W_frame, H_frame, N_cols=5, N_rows=5, Events_line=True, Faces_line=True)
+            # run.show_custom1(Cam_list, W_frame, H_frame, N_cols=5, N_rows=5, Events_line=True, Faces_line=True)
             #
 
         case _:

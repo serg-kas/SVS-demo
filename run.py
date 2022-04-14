@@ -30,7 +30,8 @@ def show_single(Camera, W=1280, H=800, FPS_calc=False):
         frames_count = 0
         fps = 'Calculating fps...'
         font = cv.FONT_HERSHEY_SIMPLEX  # font to display FPS
-        fontScale = 3  # TODO: Get optimal font scale and text position
+        # fontScale = 3
+        fontScale = utils.get_optimal_font_scale(fps, int(W/2))
         prev_time = time.time()  # record the time when we processed last frame
     #
     while True:
@@ -89,7 +90,8 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
         frames_count = 0
         fps = 'Calculating FPS...'
         font_fps = cv.FONT_HERSHEY_SIMPLEX  # font to display FPS
-        fontScale_fps = 3  # TODO: Get optimal font scale and text position
+        # fontScale_fps = 3
+        fontScale_fps = utils.get_optimal_font_scale(fps, int(W / 2))
         prev_time = time.time()  # record the time when we processed last frame
 
     while True:
@@ -179,7 +181,8 @@ def show_uniform_fps_cells(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc
     frames_count_list = [0 for _ in range(len(capture_list))]
     fps_list = ['Calculating FPS...' for _ in range(len(capture_list))]
     font_fps = cv.FONT_HERSHEY_SIMPLEX  # font to display FPS
-    fontScale_fps = 2  # TODO: Get optimal font scale and text position
+    # fontScale_fps = 2
+    fontScale_fps = utils.get_optimal_font_scale('Calculating FPS...', int(w / 1))
     prev_time_list = [time.time() for _ in range(len(capture_list))]  # record the time when we processed last frame
 
     while True:
@@ -198,7 +201,7 @@ def show_uniform_fps_cells(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc
                         prev_time_list[idx] = new_time
                         frames_count_list[idx] = 0
                     frames_count_list[idx] += 1
-                cv.putText(frame, str(fps_list[idx]), (7, 70), font_fps, fontScale_fps, (100, 255, 0), 3, cv.LINE_AA)
+                cv.putText(frame, str(fps_list[idx]), (7, 35), font_fps, fontScale_fps, (100, 255, 0), 2, cv.LINE_AA)
                 #
                 if DEBUG:
                     if error_count_list[idx] > 0:
