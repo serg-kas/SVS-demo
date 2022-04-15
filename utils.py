@@ -105,9 +105,6 @@ def get_screen_resolution():
 
 
 # Get optimal font scale
-# fontScale = 3*(img.shape[1]//6)
-# font_size = get_optimal_font_scale(text, fontScale)
-# cv.putText(img, text, org, font, font_size, color, thickness, cv2.LINE_AA)
 def get_optimal_font_scale(text, width):
     for scale in reversed(range(0, 60, 1)):
         textSize = cv.getTextSize(text, fontFace=cv.FONT_HERSHEY_SIMPLEX, fontScale=scale/10, thickness=3)

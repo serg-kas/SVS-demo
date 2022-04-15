@@ -113,5 +113,7 @@ Faces_line = True
 FPS_calc = True
 
 
+# Frame buffer size for each cam
+N_buff = 100
 # After how many errors reset video capture
 N_errors_to_reset = 10

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="code review clean up">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="fontScale adjust function">
+      <change afterPath="$PROJECT_DIR$/depreciated.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
@@ -15,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Setup Script" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -333,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649944964981</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="fontScale adjust function">
+      <created>1649948269841</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1649948269841</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -348,7 +357,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="View4x4 function done" />
     <MESSAGE value="In View4x4 function errors from rtsp capture handling" />
     <MESSAGE value="In View4x4 use sub stream indeed of main" />
     <MESSAGE value="various improvements" />
@@ -373,6 +381,7 @@
     <MESSAGE value="new single view function with FPS_calc parameter" />
     <MESSAGE value="new uniform function with fps for each cap" />
     <MESSAGE value="code review clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="code review clean up" />
+    <MESSAGE value="fontScale adjust function" />
+    <option name="LAST_COMMIT_MESSAGE" value="fontScale adjust function" />
   </component>
 </project>
