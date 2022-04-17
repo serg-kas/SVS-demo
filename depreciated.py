@@ -15,6 +15,13 @@ DEBUG = settings.DEBUG
 
 # Show video from C*R cameras in uniform template with calculating fps for each cell (cam) separately
 def show_uniform_fps_cells(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
+    """
+    There is no need to measure fps for each cell.
+    We process all sources sequentially one after another
+    and spend some total time to form a complete frame.
+    It is enough to measure the speed of formation of a full
+    frame - this will be the effective fps value.
+    """
     # Preparing template
     N_cells = int(N_cols * N_rows)
     assert N_cells > 0, 'Uniform template must be at least 1 cell in size'
@@ -72,7 +79,7 @@ def show_uniform_fps_cells(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc
                 error_count_list[idx] = 0  # reset error count
                 #
             else:
-                # Inkrement error count
+                # Increment error count
                 error_count_list[idx] += 1
                 # Get previous frame
                 frame = frame_list_prev[idx].copy()
@@ -102,3 +109,99 @@ def show_uniform_fps_cells(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc
     for cap in capture_list:
         cap.release()
     cv.destroyAllWindows()
+
+
+# Show video from C*R cameras in uniform template with the possibility of calculation full screen FPS
+def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
+    """
+    There is no frame buffer in this function (only one previous frame is stored)
+    """
+    # Preparing template
+    N_cells = int(N_cols * N_rows)
+    assert N_cells > 0, 'Uniform template must be at least 1 cell in size'
+    w, h = int(W / N_cols), int(H / N_rows)
+
+    if N_cells > 4:
+        SOURCE_list = [cam['RTSP_sub'] for cam in Cam_list]
+    else:
+        SOURCE_list = [cam['RTSP'] for cam in Cam_list]
+    SOURCE_list = SOURCE_list[:N_cells]  # we don't need more cameras than we have cells
+
+    capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
+
+    black_frame = np.zeros((h, w, 3), dtype=np.uint8)
+
+    frame_list_prev = [black_frame for _ in range(len(capture_list))]
+    error_count_list = [0 for _ in range(len(capture_list))]
+    N_errors = settings.N_errors_to_reset
+
+    font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
+    fontScale = 0.9  # TODO: Get optimal font scale and text position
+
+    Window_name = 'View ' + str(N_cols) + ' x ' + str(N_rows)
+
+    # Calculate FPS after N_frames
+    if FPS_calc:
+        N_frames = 50
+        frames_count = 0
+        fps = 'Calculating FPS...'
+        font_fps = cv.FONT_HERSHEY_SIMPLEX  # font to display FPS
+        # fontScale_fps = 3
+        fontScale_fps = utils.get_optimal_font_scale(fps, int(W / 2))
+        prev_time = time.time()  # record the time when we processed last frame
+
+    while True:
+        frame_list = []
+        for idx, cap in enumerate(capture_list):
+            isTrue, frame = cap.read()
+            if isTrue:
+                frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
+                if DEBUG:
+                    if error_count_list[idx] > 0:
+                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
+                error_count_list[idx] = 0  # reset error count
+            else:
+                # Increment error count
+                error_count_list[idx] += 1
+                # Get previous frame
+                frame = frame_list_prev[idx].copy()
+                # If this is first error put text on the frame
+                if error_count_list[idx] == 1:
+                    cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
+                # RTSP errors handling after N_error times
+                if error_count_list[idx] >= N_errors:
+                    cap.release()
+                    del capture_list[idx]
+                    capture_list.insert(idx, cv.VideoCapture(SOURCE_list[idx]))
+                    if DEBUG:
+                        print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
+            frame_list.append(frame)
+
+        # Save current frame_list
+        frame_list_prev = frame_list
+        # If we don't have enough cameras for all cells
+        for _ in range(N_cells - len(frame_list)):
+            frame_list.append(black_frame)
+        # Preparing full frame and showing it
+        full_frame = utils.concat_from_list(frame_list, N_cols, N_rows)
+        #
+        if FPS_calc:
+            if frames_count == N_frames - 1:
+                new_time = time.time()  # time when we finish processing N_frames
+                # Calculating the fps
+                fps = 1 / (new_time - prev_time) * N_frames
+                fps = int(fps)
+                prev_time = new_time
+                frames_count = 0
+            frames_count += 1
+            # Put FPS on the frame and show it
+            cv.putText(full_frame, str(fps), (7, 70), font_fps, fontScale_fps, (100, 255, 0), 3, cv.LINE_AA)
+        #
+        cv.imshow(Window_name, full_frame)
+
+        if cv.waitKey(20) & 0xFF == ord('q'):
+            break
+    for cap in capture_list:
+        cap.release()
+    cv.destroyAllWindows()
+

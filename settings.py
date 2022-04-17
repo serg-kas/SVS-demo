@@ -48,7 +48,7 @@ Cameras = [{'Cam_name': 'Cam01', 'Is_active': True, 'MD_enabled': True,
            {'Cam_name': 'Cam11', 'Is_active': True, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=11&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=11&subtype=1'},
-           {'Cam_name': 'Cam12', 'Is_active': False, 'MD_enabled': True,
+           {'Cam_name': 'Cam12', 'Is_active': True, 'MD_enabled': True,
             'RTSP': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=12&subtype=0',
             'RTSP_sub': 'rtsp://admin:daH_2019@192.168.5.44:554/cam/realmonitor?channel=12&subtype=1'},
            {'Cam_name': 'Cam13', 'Is_active': True, 'MD_enabled': True,
@@ -112,8 +112,7 @@ Faces_line = True
 # Option for Single and UniformCxR templates
 FPS_calc = True
 
-
 # Frame buffer size for each cam
-N_buff = 100
+N_buff = 250
 # After how many errors reset video capture
 N_errors_to_reset = 10

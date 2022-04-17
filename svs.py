@@ -47,7 +47,7 @@ def process(Operation_mode_string):
         case 'UniformCxR':
             #
             print('Operation mode: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
-            run.show_uniform(Cam_list, W_frame, H_frame, N_cols, N_rows, FPS_calc=settings.FPS_calc)
+            run.show_uniform_buff(Cam_list, W_frame, H_frame, N_cols, N_rows, FPS_calc=settings.FPS_calc)
         case 'Custom_CxR':
             #
             Events_line, Faces_line = settings.Events_line, settings.Faces_line
@@ -59,8 +59,8 @@ def process(Operation_mode_string):
             print('Operation mode: {}'.format(Operation_mode['Mode_name']))
             #
             # depr.show_uniform_fps_cells(Cam_list, W_frame, H_frame, N_cols=4, N_rows=4, FPS_calc=True)
-
-            run.show_uniform_buff(Cam_list, W_frame, H_frame, N_cols=4, N_rows=4, FPS_calc=True)
+            # depr.show_uniform(Cam_list, W_frame, H_frame, N_cols=4, N_rows=4, FPS_calc=True)
+            run.show_uniform_buff(Cam_list, W_frame, H_frame, N_cols=5, N_rows=4, FPS_calc=True)
             #
             # run.show_custom1(Cam_list, W_frame, H_frame, N_cols=5, N_rows=5, Events_line=True, Faces_line=True)
             #

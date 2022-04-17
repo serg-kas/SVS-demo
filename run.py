@@ -58,8 +58,8 @@ def show_single(Camera, W=1280, H=800, FPS_calc=False):
     cv.destroyAllWindows()
 
 
-# Show video from C*R cameras in uniform template with the possibility of calculation full screen FPS
-def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
+# Show video from C*R cameras in a uniform template with buffering and the ability to calculate full-screen FPS
+def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
     # Preparing template
     N_cells = int(N_cols * N_rows)
     assert N_cells > 0, 'Uniform template must be at least 1 cell in size'
@@ -73,9 +73,13 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
 
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
 
-    black_frame = np.zeros((h, w, 3), dtype=np.uint8)
+    N_buff = settings.N_buff  # buffer size for each capture
+    buff_array = np.zeros((len(capture_list), N_buff, h, w, 3), dtype=np.uint8)
+    buff_point = np.zeros((len(capture_list)), dtype=np.uint8)
 
-    frame_list_prev = [black_frame for _ in range(len(capture_list))]
+    black_frame = np.zeros((h, w, 3), dtype=np.uint8)
+    black_frame_list = [black_frame for _ in range(N_cells - len(capture_list))]
+
     error_count_list = [0 for _ in range(len(capture_list))]
     N_errors = settings.N_errors_to_reset
 
@@ -95,23 +99,42 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
         prev_time = time.time()  # record the time when we processed last frame
 
     while True:
-        frame_list = []
+        #
         for idx, cap in enumerate(capture_list):
+
+            p = buff_point[idx]  # current pointer (buffer index)
+
             isTrue, frame = cap.read()
             if isTrue:
                 frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
+                #
+                if p == N_buff - 1:
+                    p = 0
+                else:
+                    p += 1
+                buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
+                buff_point[idx] = p  # save pointer
+                #
                 if DEBUG:
                     if error_count_list[idx] > 0:
                         print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
                 error_count_list[idx] = 0  # reset error count
             else:
-                # Inkrement error count
+                # Increment error count
                 error_count_list[idx] += 1
-                # Get previous frame
-                frame = frame_list_prev[idx].copy()
                 # If this is first error put text on the frame
                 if error_count_list[idx] == 1:
+                    # Get previous frame
+                    frame = buff_array[idx][p].copy()
                     cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
+                    #
+                    if p == N_buff-1:
+                        p = 0
+                    else:
+                        p += 1
+                    buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
+                    buff_point[idx] = p  # save pointer
+                    #
                 # RTSP errors handling after N_error times
                 if error_count_list[idx] >= N_errors:
                     cap.release()
@@ -119,14 +142,9 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
                     capture_list.insert(idx, cv.VideoCapture(SOURCE_list[idx]))
                     if DEBUG:
                         print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
-            frame_list.append(frame)
-
-        # Save current frame_list
-        frame_list_prev = frame_list
-        # If we don't have enough cameras for all cells
-        for _ in range(N_cells - len(frame_list)):
-            frame_list.append(black_frame)
+            #
         # Preparing full frame and showing it
+        frame_list = [buff_array[idx][buff_point[idx]] for idx in range(len(capture_list))] + black_frame_list
         full_frame = utils.concat_from_list(frame_list, N_cols, N_rows)
         #
         if FPS_calc:
@@ -148,80 +166,6 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
     for cap in capture_list:
         cap.release()
     cv.destroyAllWindows()
-
-
-# Show video from C*R cameras in uniform template with the possibility of calculation full screen FPS
-# TODO: Extremely slowly !
-def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
-    # Preparing template
-    N_cells = int(N_cols * N_rows)
-    assert N_cells > 0, 'Uniform template must be at least 1 cell in size'
-    w, h = int(W / N_cols), int(H / N_rows)
-
-    if N_cells > 4:
-        SOURCE_list = [cam['RTSP_sub'] for cam in Cam_list]
-    else:
-        SOURCE_list = [cam['RTSP'] for cam in Cam_list]
-    SOURCE_list = SOURCE_list[:N_cells]  # we don't need more cameras than we have cells
-
-    capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
-
-    N_buff = settings.N_buff  # buffer size for each capture
-    Buffer = np.zeros((len(capture_list), N_buff, h, w, 3), dtype=np.uint8)
-
-    black_frame = np.zeros((h, w, 3), dtype=np.uint8)
-    black_frame_list = [black_frame for _ in range(N_cells - len(capture_list))]
-
-    error_count_list = [0 for _ in range(len(capture_list))]
-    N_errors = settings.N_errors_to_reset
-
-    font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
-    fontScale = 0.9  # TODO: Get optimal font scale and text position
-
-    Window_name = 'View ' + str(N_cols) + ' x ' + str(N_rows)
-
-    while True:
-        #
-        for idx, cap in enumerate(capture_list):
-            isTrue, frame = cap.read()
-            if isTrue:
-                frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
-                if DEBUG:
-                    if error_count_list[idx] > 0:
-                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
-                error_count_list[idx] = 0  # reset error count
-            else:
-                # Inkrement error count
-                error_count_list[idx] += 1
-                # Get previous frame
-                frame = Buffer[idx][0]
-                # If this is first error put text on the frame
-                if error_count_list[idx] == 1:
-                    cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
-                # RTSP errors handling after N_error times
-                if error_count_list[idx] >= N_errors:
-                    cap.release()
-                    del capture_list[idx]
-                    capture_list.insert(idx, cv.VideoCapture(SOURCE_list[idx]))
-                    if DEBUG:
-                        print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
-            #
-            np.roll(Buffer, 1, axis=1)
-            Buffer[idx][0] = frame
-
-        # Preparing full frame and showing it
-        frame_list = [Buffer[_][0] for _ in range(len(capture_list))] + black_frame_list
-        # print(Buffer[:][0].shape)
-        full_frame = utils.concat_from_list(frame_list, N_cols, N_rows)
-        #
-        cv.imshow(Window_name, full_frame)
-
-        if cv.waitKey(20) & 0xFF == ord('q'):
-            break
-    for cap in capture_list:
-        cap.release()
-    cv.destroyAllWindows()
-    # TODO: Try to show|save video from buffer?
 
 
 # Show video in custom template Def_cam + some other cams + events/faces lines
@@ -275,7 +219,7 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Events_line=True, 
                         print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
                 error_count_list[idx] = 0  # reset error count
             else:
-                # Inkrement error count
+                # Increment error count
                 error_count_list[idx] += 1
                 # Get previous frame
                 frame = frame_list_prev[idx].copy()
