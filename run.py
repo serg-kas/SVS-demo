@@ -72,15 +72,17 @@ def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=Fals
     SOURCE_list = SOURCE_list[:N_cells]  # we don't need more cameras than we have cells
 
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
+    N_captures = len(capture_list)
 
     N_buff = settings.N_buff  # buffer size for each capture
-    buff_array = np.zeros((len(capture_list), N_buff, h, w, 3), dtype=np.uint8)
-    buff_point = np.zeros((len(capture_list)), dtype=np.uint8)
+    buff_array = np.zeros((N_captures, N_buff, h, w, 3), dtype=np.uint8)
+    buff_point = np.zeros(N_captures, dtype=np.uint8)
 
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
     black_frame_list = [black_frame for _ in range(N_cells - len(capture_list))]
 
-    error_count_list = [0 for _ in range(len(capture_list))]
+    # error_count_list = [0 for _ in range(len(capture_list))]
+    error_count = np.zeros(N_captures, dtype=np.uint8)
     N_errors = settings.N_errors_to_reset
 
     font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
@@ -116,14 +118,14 @@ def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=Fals
                 buff_point[idx] = p  # save pointer
                 #
                 if DEBUG:
-                    if error_count_list[idx] > 0:
-                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
-                error_count_list[idx] = 0  # reset error count
+                    if error_count[idx] > 0:
+                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count[idx]))
+                error_count[idx] = 0  # reset error count
             else:
                 # Increment error count
-                error_count_list[idx] += 1
+                error_count[idx] += 1
                 # If this is first error put text on the frame
-                if error_count_list[idx] == 1:
+                if error_count[idx] == 1:
                     # Get previous frame
                     frame = buff_array[idx][p].copy()
                     cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
@@ -136,12 +138,12 @@ def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=Fals
                     buff_point[idx] = p  # save pointer
                     #
                 # RTSP errors handling after N_error times
-                if error_count_list[idx] >= N_errors:
+                if error_count[idx] >= N_errors:
                     cap.release()
                     del capture_list[idx]
                     capture_list.insert(idx, cv.VideoCapture(SOURCE_list[idx]))
                     if DEBUG:
-                        print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
+                        print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count[idx]))
             #
         # Preparing full frame and showing it
         frame_list = [buff_array[idx][buff_point[idx]] for idx in range(len(capture_list))] + black_frame_list
@@ -192,12 +194,13 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Events_line=True, 
     SOURCE_list = SOURCE_list[:N_places]  # we don't need cameras more than we have places
 
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
+    N_captures = len(capture_list)
 
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
     def_cam_black_frame = np.zeros((Def_cam_h, Def_cam_w, 3), dtype=np.uint8)
 
-    frame_list_prev = [def_cam_black_frame] + [black_frame for _ in range(len(capture_list)-1)]
-    error_count_list = [0 for _ in range(len(capture_list))]
+    frame_list_prev = [def_cam_black_frame] + [black_frame for _ in range(N_captures-1)]
+    error_count = np.zeros(N_captures, dtype=np.uint8)
     N_errors = settings.N_errors_to_reset
 
     font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
@@ -215,24 +218,24 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Events_line=True, 
                 else:
                     frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
                 if DEBUG:
-                    if error_count_list[idx] >= 1:
-                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
-                error_count_list[idx] = 0  # reset error count
+                    if error_count[idx] >= 1:
+                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count[idx]))
+                error_count[idx] = 0  # reset error count
             else:
                 # Increment error count
-                error_count_list[idx] += 1
+                error_count[idx] += 1
                 # Get previous frame
                 frame = frame_list_prev[idx].copy()
                 # If this is first error put text on the frame
-                if error_count_list[idx] == 1:
+                if error_count[idx] == 1:
                     cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
                 # RTSP errors handling after N_error times
-                if error_count_list[idx] >= N_errors:
+                if error_count[idx] >= N_errors:
                     cap.release()
                     del capture_list[idx]
                     capture_list.insert(idx, cv.VideoCapture(SOURCE_list[idx]))
                     if DEBUG:
-                        print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count_list[idx]))
+                        print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count[idx]))
             frame_list.append(frame)
 
         # Save current frame_list
