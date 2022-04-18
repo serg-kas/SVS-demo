@@ -59,7 +59,7 @@ def show_single(Camera, W=1280, H=800, FPS_calc=False):
 
 
 # Show video from C*R cameras in a uniform template with buffering and the ability to calculate full-screen FPS
-def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
+def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
     # Preparing template
     N_cells = int(N_cols * N_rows)
     assert N_cells > 0, 'Uniform template must be at least 1 cell in size'
@@ -77,9 +77,12 @@ def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=Fals
     N_buff = settings.N_buff  # buffer size for each capture
     buff_array = np.zeros((N_captures, N_buff, h, w, 3), dtype=np.uint8)
     buff_point = np.zeros(N_captures, dtype=np.uint8)
-
+    #
+    # TODO: md_array shape may be changed
+    md_array = np.zeros(N_captures, N_buff, 5)  # 5 = 1 md_teg + 4 coordinates
+    #
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
-    black_frame_list = [black_frame for _ in range(N_cells - len(capture_list))]
+    black_frame_list = [black_frame for _ in range(N_cells - N_captures)]
 
     # error_count_list = [0 for _ in range(len(capture_list))]
     error_count = np.zeros(N_captures, dtype=np.uint8)
@@ -146,7 +149,7 @@ def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=Fals
                         print('Reconnected cap[{0}] after {1} errors'.format(idx, error_count[idx]))
             #
         # Preparing full frame and showing it
-        frame_list = [buff_array[idx][buff_point[idx]] for idx in range(len(capture_list))] + black_frame_list
+        frame_list = [buff_array[idx][buff_point[idx]] for idx in range(N_captures)] + black_frame_list
         full_frame = utils.concat_from_list(frame_list, N_cols, N_rows)
         #
         if FPS_calc:
