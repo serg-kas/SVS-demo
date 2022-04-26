@@ -79,7 +79,7 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
     buff_point = np.zeros(N_captures, dtype=np.uint8)
     #
     # TODO: md_array shape may be changed
-    md_array = np.zeros(N_captures, N_buff, 5)  # 5 = 1 md_teg + 4 coordinates
+    md_array = np.zeros((N_captures, N_buff, 5), dtype=np.uint8)  # 4 coordinates + !?
     #
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
     black_frame_list = [black_frame for _ in range(N_cells - N_captures)]
