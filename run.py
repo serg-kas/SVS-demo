@@ -73,18 +73,22 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
 
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
     N_captures = len(capture_list)
-
+    #
     N_buff = settings.N_buff  # buffer size for each capture
     buff_array = np.zeros((N_captures, N_buff, h, w, 3), dtype=np.uint8)
     buff_point = np.zeros(N_captures, dtype=np.uint8)
+
     #
-    # TODO: md_array shape may be changed
-    md_array = np.zeros((N_captures, N_buff, 5), dtype=np.uint8)  # 4 coordinates + !?
+    # MOTION DETECTION in a simple way
+    md_enabled_list = [cam['MD_enabled'] for cam in Cam_list]
+    md_status = np.zeros((N_captures, N_buff), dtype=np.uint8)
+    success_count = np.zeros(N_captures, dtype=np.uint8)
+
     #
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
     black_frame_list = [black_frame for _ in range(N_cells - N_captures)]
 
-    # error_count_list = [0 for _ in range(len(capture_list))]
+    #
     error_count = np.zeros(N_captures, dtype=np.uint8)
     N_errors = settings.N_errors_to_reset
 
@@ -108,10 +112,49 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
         for idx, cap in enumerate(capture_list):
 
             p = buff_point[idx]  # current pointer (buffer index)
+            # If there was motion detected dropping the last frame (md_frame)
+            if md_status[idx][p] == 1:
+                if p > 0:
+                    p -= 1
+                else:
+                    p = N_buff - 1
 
             isTrue, frame = cap.read()
             if isTrue:
                 frame = cv.resize(frame, (w, h), interpolation=cv.INTER_AREA)
+                #
+                if DEBUG:
+                    if error_count[idx] > 0:
+                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count[idx]))
+                #
+                error_count[idx] = 0  # reset error count
+                #
+                if success_count[idx] < N_buff:
+                    success_count[idx] += 1
+                #
+                # MOTION DETECTION
+                md_frame = None
+                md_flag = 0
+                if md_enabled_list[idx] and success_count[idx] > 1:
+                    # Get previous frame
+                    md_frame = frame.copy()
+                    prev_frame = buff_array[idx][p].copy()
+                    #
+                    diff = cv.absdiff(md_frame, prev_frame)
+                    gray = cv.cvtColor(diff, cv.COLOR_BGR2GRAY)
+                    blur = cv.GaussianBlur(gray, (5, 5), 0)
+                    _, thresh = cv.threshold(blur, 20, 255, cv.THRESH_BINARY)
+                    dilated = cv.dilate(thresh, None, iterations=3)
+                    contours, _ = cv.findContours(dilated, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+                    #
+                    if len(contours) != 0:
+                        md_flag = 1
+                        # cv.drawContours(md_frame, contours, -1, (0, 255, 0), 2)
+                        for contour in contours:
+                            if cv.contourArea(contour) < 700:
+                                continue
+                            (xc, yc, wc, hc) = cv.boundingRect(contour)
+                            cv.rectangle(md_frame, (xc, yc), (xc + wc, yc + hc), (0, 255, 0), 2)
                 #
                 if p == N_buff - 1:
                     p = 0
@@ -119,12 +162,20 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                     p += 1
                 buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
                 buff_point[idx] = p  # save pointer
+                md_status[idx][p] = md_flag
                 #
-                if DEBUG:
-                    if error_count[idx] > 0:
-                        print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count[idx]))
-                error_count[idx] = 0  # reset error count
+                if md_frame is not None:
+                    if p == N_buff - 1:
+                        p = 0
+                    else:
+                        p += 1
+                    buff_array[idx][p] = md_frame.copy()  # save frame with rectangles by current index (pointer)
+                    buff_point[idx] = p
+                    md_status[idx][p] = md_flag
+                #
             else:
+                # Reset the success counter
+                success_count[idx] = 0
                 # Increment error count
                 error_count[idx] += 1
                 # If this is first error put text on the frame
@@ -139,6 +190,7 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                         p += 1
                     buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
                     buff_point[idx] = p  # save pointer
+                    md_status[idx][p] = 0
                     #
                 # RTSP errors handling after N_error times
                 if error_count[idx] >= N_errors:
