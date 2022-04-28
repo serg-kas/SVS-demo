@@ -322,3 +322,4 @@ def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=Fals
     for cap in capture_list:
         cap.release()
     cv.destroyAllWindows()
+

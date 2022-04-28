@@ -120,4 +120,14 @@ def concat_from_list(frame_list, N_cols, N_rows):
         row_list.append(np.concatenate(frame_list[N_cols * r: N_cols * (r + 1)], axis=1))
     return np.concatenate(row_list, axis=0)
 
-# Motion detection
+
+# Motion detection with two frames
+def md_simple(frame1, frame2):
+    diff = cv.absdiff(frame1, frame2)
+    gray = cv.cvtColor(diff, cv.COLOR_BGR2GRAY)
+    blur = cv.GaussianBlur(gray, (5, 5), 0)
+    _, thresh = cv.threshold(blur, 20, 255, cv.THRESH_BINARY)
+    dilated = cv.dilate(thresh, None, iterations=3)
+    contours, _ = cv.findContours(dilated, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    return contours
+
