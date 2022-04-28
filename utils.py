@@ -14,7 +14,6 @@ DEBUG = settings.DEBUG
 
 
 # A few things to do in first
-# TODO: functionality is undefined and may be changed in the future
 def do_preparing():
     # Reading folder configuration from settings
     model_PATH = settings.model_PATH
