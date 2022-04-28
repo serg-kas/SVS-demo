@@ -42,7 +42,8 @@ def show_uniform_fps_cells(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc
     N_errors = settings.N_errors_to_reset
 
     font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
-    fontScale = 0.9  # TODO: Get optimal font scale and text position
+    # fontScale = 0.9
+    fontScale = utils.get_optimal_font_scale('Connecting...', int(w * 3 / 4))
 
     Window_name = 'View ' + str(N_cols) + ' x ' + str(N_rows)
 
@@ -136,7 +137,8 @@ def show_uniform(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
     N_errors = settings.N_errors_to_reset
 
     font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
-    fontScale = 0.9  # TODO: Get optimal font scale and text position
+    # fontScale = 0.9
+    fontScale = utils.get_optimal_font_scale('Connecting...', int(w * 3 / 4))
 
     Window_name = 'View ' + str(N_cols) + ' x ' + str(N_rows)
 
@@ -237,7 +239,8 @@ def show_uniform_buff(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=Fals
     N_errors = settings.N_errors_to_reset
 
     font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
-    fontScale = 0.9  # TODO: Get optimal font scale and text position
+    # fontScale = 0.9
+    fontScale = utils.get_optimal_font_scale('Connecting...', int(w * 3 / 4))
 
     Window_name = 'View ' + str(N_cols) + ' x ' + str(N_rows)
 

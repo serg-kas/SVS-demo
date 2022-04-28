@@ -60,6 +60,10 @@ def show_single(Camera, W=1280, H=800, FPS_calc=False):
 
 # Show video from C*R cameras in a uniform template with buffering and the ability to calculate full-screen FPS
 def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False):
+    """
+    All frames from all cameras are stored in a ring buffer buff_array.
+    The vector buff_point contains pointers to the position of the actual frames in the buffer.
+    """
     # Preparing template
     N_cells = int(N_cols * N_rows)
     assert N_cells > 0, 'Uniform template must be at least 1 cell in size'
@@ -73,27 +77,29 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
 
     capture_list = [cv.VideoCapture(source) for source in SOURCE_list]
     N_captures = len(capture_list)
-    #
+
+    # Buffer for frames and vector for indexes.
     N_buff = settings.N_buff  # buffer size for each capture
     buff_array = np.zeros((N_captures, N_buff, h, w, 3), dtype=np.uint8)
     buff_point = np.zeros(N_captures, dtype=np.uint8)
 
-    #
-    # MOTION DETECTION in a simple way
+    # Motion detection
     md_enabled_list = [cam['MD_enabled'] for cam in Cam_list]
     md_status = np.zeros((N_captures, N_buff), dtype=np.uint8)
-    success_count = np.zeros(N_captures, dtype=np.uint8)
 
-    #
+    # For empty frames
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
     black_frame_list = [black_frame for _ in range(N_cells - N_captures)]
 
-    #
+    # Counting success and errors frames for each capture
+    success_count = np.zeros(N_captures, dtype=np.uint8)
     error_count = np.zeros(N_captures, dtype=np.uint8)
     N_errors = settings.N_errors_to_reset
 
+    #
     font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
-    fontScale = 0.9  # TODO: Get optimal font scale and text position
+    # fontScale = 0.9
+    fontScale = utils.get_optimal_font_scale('Connecting...', int(w * 3 / 4))
 
     Window_name = 'View ' + str(N_cols) + ' x ' + str(N_rows)
 
@@ -259,7 +265,8 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Events_line=True, 
     N_errors = settings.N_errors_to_reset
 
     font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
-    fontScale = 0.9  # TODO: Get optimal font scale and text position
+    # fontScale = 0.9
+    fontScale = utils.get_optimal_font_scale('Connecting...', int(w * 3 / 4))
 
     Window_name = 'Custom View ' + str(N_cols) + ' x ' + str(N_rows)
 

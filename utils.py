@@ -14,7 +14,7 @@ DEBUG = settings.DEBUG
 
 
 # A few things to do in first
-# TODO: functionality is undefined and may change in the future
+# TODO: functionality is undefined and may be changed in the future
 def do_preparing():
     # Reading folder configuration from settings
     model_PATH = settings.model_PATH
@@ -121,3 +121,4 @@ def concat_from_list(frame_list, N_cols, N_rows):
         row_list.append(np.concatenate(frame_list[N_cols * r: N_cols * (r + 1)], axis=1))
     return np.concatenate(row_list, axis=0)
 
+# Motion detection
