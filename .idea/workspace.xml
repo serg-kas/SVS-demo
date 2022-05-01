@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="minor comment changes">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="md_simple function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/depreciated.py" beforeDir="false" afterPath="$PROJECT_DIR$/depreciated.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -397,7 +397,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651171508739</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="md_simple function">
+      <created>1651176517077</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1651176517077</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -412,7 +419,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Common function for CxR cells view" />
     <MESSAGE value="New function with scaled default camera" />
     <MESSAGE value="Parsing operation mode ViewCxR from command line" />
     <MESSAGE value="Functions and op.modes renamed" />
@@ -437,6 +443,7 @@
     <MESSAGE value="md simple implementation" />
     <MESSAGE value="font size for 'Connecting...' from function" />
     <MESSAGE value="minor comment changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor comment changes" />
+    <MESSAGE value="md_simple function" />
+    <option name="LAST_COMMIT_MESSAGE" value="md_simple function" />
   </component>
 </project>

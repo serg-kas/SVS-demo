@@ -31,7 +31,7 @@ def show_single(Camera, W=1280, H=800, FPS_calc=False):
         fps = 'Calculating fps...'
         font = cv.FONT_HERSHEY_SIMPLEX  # font to display FPS
         # fontScale = 3
-        fontScale = utils.get_optimal_font_scale(fps, int(W/2))
+        fontScale = utils.get_optimal_font_scale(fps, int(W / 2))
         prev_time = time.time()  # record the time when we processed last frame
     #
     while True:
@@ -40,7 +40,7 @@ def show_single(Camera, W=1280, H=800, FPS_calc=False):
         frame = cv.resize(frame, (W, H), interpolation=cv.INTER_AREA)
         #
         if FPS_calc:
-            if frames_count == N_frames-1:
+            if frames_count == N_frames - 1:
                 new_time = time.time()  # time when we finish processing N_frames
                 # Calculating the fps
                 fps = 1 / (new_time - prev_time) * N_frames
@@ -85,7 +85,7 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
 
     # Motion detection
     md_enabled_list = [cam['MD_enabled'] for cam in Cam_list]
-    md_status = np.zeros((N_captures, N_buff), dtype=np.uint8)
+    md_status = np.zeros(N_captures, dtype=np.uint8)
 
     # For empty frames
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
@@ -118,8 +118,8 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
         for idx, cap in enumerate(capture_list):
 
             p = buff_point[idx]  # current pointer (buffer index)
-            # If there was motion detected, dropping the last frame (md_frame)
-            if md_status[idx][p] == 1:
+            # If there was motion detected, dropping the last frame (md_frame with depicted rectangles)
+            if md_status[idx] > 0:
                 p -= 1 if p > 0 else N_buff - 1
 
             isTrue, frame = cap.read()
@@ -131,42 +131,61 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                         print('Successfully get frame from cap[{0}] after {1} errors'.format(idx, error_count[idx]))
                 #
                 error_count[idx] = 0  # reset error count
-                #
                 if success_count[idx] < N_buff:
                     success_count[idx] += 1
                 #
                 # Motion detection
-                md_flag = 0
-                if md_enabled_list[idx] and success_count[idx] > 1:
-                    # Get frames
-                    md_frame = frame.copy()
-                    prev_frame = buff_array[idx][p].copy()
+                got_motion = False
+                if md_enabled_list[idx] and success_count[idx] > 20:
                     #
-                    contours = utils.md_simple(md_frame, prev_frame)
+                    # Get background and foreground
+                    background_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 20, 5)
+                    background = np.mean(background_array, axis=0, dtype=np.uint8)
+
+                    foreground_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 5, 0)
+                    foreground = frame.copy()
+                    for i in range(5):
+                        curr_frame = foreground_array[-i] * (0.75 ** (i+1))
+                        curr_frame = curr_frame.astype(np.uint8, copy=False)
+                        foreground += curr_frame
+                    foreground = foreground / 6
+                    foreground = foreground.astype(np.uint8, copy=False)
+
+                    # foreground = (np.mean(foreground_array, axis=0, dtype=np.uint8) + frame.copy()) * 0.50
+                    # foreground = foreground.astype(np.uint8, copy=False)
+                    # foreground = np.mean(foreground_array, axis=0, dtype=np.uint8)
+                    # print(buff_array.shape, background_array.shape, background.shape, foreground_array.shape, foreground.shape)
+                    contours = utils.md_diff(foreground, background)
+
+                    # # Get frames
+                    md_frame = frame.copy()
+                    # prev_frame = buff_array[idx][p].copy()
+                    # contours = utils.md_diff(md_frame, prev_frame)
                     #
                     if len(contours) != 0:
-                        # md_flag = 1
                         # cv.drawContours(md_frame, contours, -1, (0, 255, 0), 2)
                         for contour in contours:
                             if cv.contourArea(contour) < 700:
                                 continue
-                            md_flag = 1
+                            got_motion = True
                             (xc, yc, wc, hc) = cv.boundingRect(contour)
                             cv.rectangle(md_frame, (xc, yc), (xc + wc, yc + hc), (0, 255, 0), 2)
 
-                # Put current frame in buffer
+                # Put current frame in buffer anyway
                 p += 1 if p < N_buff - 1 else 0
                 buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
                 buff_point[idx] = p  # save pointer
-                md_status[idx][p] = md_flag
+                md_status[idx] += 1 if got_motion else 0
+                if md_status[idx] > N_buff:
+                    md_status[idx] = N_buff
 
-                # Put frame with rectangle in buffer
-                if md_flag > 0:
+                # Put frame with depicted rectangles in buffer
+                if got_motion:
                     p += 1 if p < N_buff - 1 else 0
                     buff_array[idx][p] = md_frame.copy()  # save frame with rectangles by current index (pointer)
                     buff_point[idx] = p
-                    md_status[idx][p] = md_flag
                 #
+                print(md_status[idx])
             else:
                 # Reset the success counter
                 success_count[idx] = 0
@@ -181,7 +200,7 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                     p += 1 if p < N_buff - 1 else 0
                     buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
                     buff_point[idx] = p  # save pointer
-                    md_status[idx][p] = 0
+                    md_status[idx] = 0
                     #
                 # RTSP errors handling after N_error times
                 if error_count[idx] >= N_errors:
@@ -234,7 +253,7 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Events_line=True, 
     #
     Def_cam_w, Def_cam_h = Def_cam_size * w, Def_cam_size * h
     #
-    N_places = (N_cols-Def_cam_size) * Def_cam_size + 1  # how many cameras are placed on frame including Def_cam
+    N_places = (N_cols - Def_cam_size) * Def_cam_size + 1  # how many cameras are placed on frame including Def_cam
     #
     SOURCE_list = [Cam_list[0]['RTSP']] + [cam['RTSP_sub'] for cam in Cam_list[1:]]  # Def_cam uses RTSP main stream
     SOURCE_list = SOURCE_list[:N_places]  # we don't need cameras more than we have places
@@ -245,7 +264,7 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Events_line=True, 
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
     def_cam_black_frame = np.zeros((Def_cam_h, Def_cam_w, 3), dtype=np.uint8)
 
-    frame_list_prev = [def_cam_black_frame] + [black_frame for _ in range(N_captures-1)]
+    frame_list_prev = [def_cam_black_frame] + [black_frame for _ in range(N_captures - 1)]
     error_count = np.zeros(N_captures, dtype=np.uint8)
     N_errors = settings.N_errors_to_reset
 
@@ -296,7 +315,7 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Events_line=True, 
         face_list = [black_frame for _ in range(N_cols)]
 
         # Preparing full frame
-        right_part = utils.concat_from_list(frame_list[1:], N_cols-Def_cam_size, Def_cam_size)
+        right_part = utils.concat_from_list(frame_list[1:], N_cols - Def_cam_size, Def_cam_size)
         upper_part = np.concatenate((frame_list[0], right_part), axis=1)
         #
         events = utils.concat_from_list(event_list, N_cols, 1)
@@ -310,6 +329,5 @@ def show_custom1(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, Events_line=True, 
     for cap in capture_list:
         cap.release()
     cv.destroyAllWindows()
-
 
 #

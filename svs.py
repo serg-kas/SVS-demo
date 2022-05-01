@@ -63,7 +63,7 @@ def process(Operation_mode_string):
             # depr.show_uniform(Cam_list, W_frame, H_frame, N_cols=4, N_rows=4, FPS_calc=True)
             # depr.show_uniform_buff(Cam_list, W_frame, H_frame, N_cols=5, N_rows=4, FPS_calc=True)
             #
-            run.show_uniform_md(Cam_list, W_frame, H_frame, N_cols=5, N_rows=4, FPS_calc=True)
+            run.show_uniform_md(Cam_list, W_frame, H_frame, N_cols=4, N_rows=3, FPS_calc=True)
             # run.show_custom1(Cam_list, W_frame, H_frame, N_cols=6, N_rows=5, Events_line=True, Faces_line=True)
             #
 

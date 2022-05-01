@@ -122,7 +122,7 @@ def concat_from_list(frame_list, N_cols, N_rows):
 
 
 # Motion detection with two frames
-def md_simple(frame1, frame2):
+def md_diff(frame1, frame2):
     diff = cv.absdiff(frame1, frame2)
     gray = cv.cvtColor(diff, cv.COLOR_BGR2GRAY)
     blur = cv.GaussianBlur(gray, (5, 5), 0)
@@ -130,4 +130,13 @@ def md_simple(frame1, frame2):
     dilated = cv.dilate(thresh, None, iterations=3)
     contours, _ = cv.findContours(dilated, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     return contours
+
+
+# Get N frames from buffer
+def get_frames_from_buff(buffer, point, f_begin, f_end):
+    assert f_begin > f_end
+    # n = f_begin - f_end
+    return buffer[point-f_begin:point-f_end]
+
+    # return buffer
 
