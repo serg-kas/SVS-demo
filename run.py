@@ -140,29 +140,27 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                     #
                     # Get background and foreground
                     background_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 20, 5)
-                    background = np.mean(background_array, axis=0, dtype=np.uint8)
+                    background = np.mean(background_array, axis=0, dtype=np.float32)
 
                     foreground_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 5, 0)
                     foreground = frame.copy()
+                    foreground = foreground.astype(np.float32, copy=False)
                     for i in range(5):
                         curr_frame = foreground_array[-i] * (0.75 ** (i+1))
-                        curr_frame = curr_frame.astype(np.uint8, copy=False)
+                        curr_frame = curr_frame.astype(np.float32, copy=False)
                         foreground += curr_frame
                     foreground = foreground / 6
-                    foreground = foreground.astype(np.uint8, copy=False)
+                    # foreground = foreground.astype(np.float32, copy=False)
 
-                    # foreground = (np.mean(foreground_array, axis=0, dtype=np.uint8) + frame.copy()) * 0.50
-                    # foreground = foreground.astype(np.uint8, copy=False)
-                    # foreground = np.mean(foreground_array, axis=0, dtype=np.uint8)
-                    # print(buff_array.shape, background_array.shape, background.shape, foreground_array.shape, foreground.shape)
                     contours = utils.md_diff(foreground, background)
 
-                    # # Get frames
+                    # Get frames
                     md_frame = frame.copy()
                     # prev_frame = buff_array[idx][p].copy()
                     # contours = utils.md_diff(md_frame, prev_frame)
                     #
                     if len(contours) != 0:
+                        # got_motion = True
                         # cv.drawContours(md_frame, contours, -1, (0, 255, 0), 2)
                         for contour in contours:
                             if cv.contourArea(contour) < 700:
@@ -185,7 +183,6 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                     buff_array[idx][p] = md_frame.copy()  # save frame with rectangles by current index (pointer)
                     buff_point[idx] = p
                 #
-                print(md_status[idx])
             else:
                 # Reset the success counter
                 success_count[idx] = 0

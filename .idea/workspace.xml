@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="md_simple function">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="md function in progress">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -404,7 +403,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651176517077</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="md function in progress">
+      <created>1651442465160</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1651442465160</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -419,7 +425,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="New function with scaled default camera" />
     <MESSAGE value="Parsing operation mode ViewCxR from command line" />
     <MESSAGE value="Functions and op.modes renamed" />
     <MESSAGE value="Operation mode parsing function is ready" />
@@ -444,6 +449,7 @@
     <MESSAGE value="font size for 'Connecting...' from function" />
     <MESSAGE value="minor comment changes" />
     <MESSAGE value="md_simple function" />
-    <option name="LAST_COMMIT_MESSAGE" value="md_simple function" />
+    <MESSAGE value="md function in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="md function in progress" />
   </component>
 </project>
