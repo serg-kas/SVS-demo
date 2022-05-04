@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="md function in progress">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="md function still in progress">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
@@ -410,7 +410,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651442465160</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="md function still in progress">
+      <created>1651615347392</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1651615347392</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -425,7 +432,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Parsing operation mode ViewCxR from command line" />
     <MESSAGE value="Functions and op.modes renamed" />
     <MESSAGE value="Operation mode parsing function is ready" />
     <MESSAGE value="refactoring custom template function" />
@@ -450,6 +456,7 @@
     <MESSAGE value="minor comment changes" />
     <MESSAGE value="md_simple function" />
     <MESSAGE value="md function in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="md function in progress" />
+    <MESSAGE value="md function still in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="md function still in progress" />
   </component>
 </project>

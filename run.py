@@ -133,25 +133,25 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                 error_count[idx] = 0  # reset error count
                 if success_count[idx] < N_buff:
                     success_count[idx] += 1
-                #
+
+                # Put current frame in buffer
+                p += 1 if p < N_buff - 1 else 0
+                buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
+                buff_point[idx] = p  # save pointer
+
                 # Motion detection
                 got_motion = False
-                if md_enabled_list[idx] and success_count[idx] > 20:
+                if md_enabled_list[idx] and success_count[idx] > 15:
                     #
                     # Get background and foreground
-                    background_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 20, 5)
+                    background_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 15, 0)
                     background = np.mean(background_array, axis=0, dtype=np.float32)
-
+                    #
                     foreground_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 5, 0)
-                    foreground = frame.copy()
-                    foreground = foreground.astype(np.float32, copy=False)
                     for i in range(5):
-                        curr_frame = foreground_array[-i] * (0.75 ** (i+1))
-                        curr_frame = curr_frame.astype(np.float32, copy=False)
-                        foreground += curr_frame
-                    foreground = foreground / 6
-                    # foreground = foreground.astype(np.float32, copy=False)
-
+                        foreground_array[i] = foreground_array[i] * (i+1) / 5
+                    foreground = np.mean(foreground_array, axis=0, dtype=np.float32)
+                    #
                     contours = utils.md_diff(foreground, background)
 
                     # Get frames
@@ -169,13 +169,11 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                             (xc, yc, wc, hc) = cv.boundingRect(contour)
                             cv.rectangle(md_frame, (xc, yc), (xc + wc, yc + hc), (0, 255, 0), 2)
 
-                # Put current frame in buffer anyway
-                p += 1 if p < N_buff - 1 else 0
-                buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
-                buff_point[idx] = p  # save pointer
+                # Update md_status
                 md_status[idx] += 1 if got_motion else 0
                 if md_status[idx] > N_buff:
                     md_status[idx] = N_buff
+                # print(idx, md_status[idx], got_motion)
 
                 # Put frame with depicted rectangles in buffer
                 if got_motion:
