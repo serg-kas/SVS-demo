@@ -134,10 +134,10 @@ def md_diff(frame1, frame2):
 
 
 # Get some frames from buffer
-def get_frames_from_buff(buffer, point, f_begin, f_end):
-    # TODO: If point < f_begin ???
-    assert f_begin > f_end
-    assert point >= f_begin
-    return buffer[point - f_begin:point - f_end]
-    # return buffer
+def get_frames_from_buff(buffer, point, frames_return):
+    if point > frames_return:
+        return buffer[-frames_return:]
+    else:
+        N_buff = settings.N_buff
+        return np.concatenate([buffer[N_buff-frames_return+point:], buffer[:point]], axis=0)
 

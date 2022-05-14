@@ -85,7 +85,7 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
 
     # Motion detection
     md_enabled_list = [cam['MD_enabled'] for cam in Cam_list]
-    md_status = np.zeros(N_captures, dtype=np.uint8)
+    md_status = np.zeros(N_captures, dtype=np.uint8)  # motion was detected status
 
     # For empty frames
     black_frame = np.zeros((h, w, 3), dtype=np.uint8)
@@ -94,7 +94,7 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
     # Counting successful and errors frames for each capture device
     success_count = np.zeros(N_captures, dtype=np.uint8)
     error_count = np.zeros(N_captures, dtype=np.uint8)
-    N_errors = settings.N_errors_to_reset
+    N_errors = settings.N_errors_to_reset  # how many errors are allowed before doing reset capture device
 
     #
     font = cv.FONT_HERSHEY_SIMPLEX  # font to display connecting status
@@ -118,9 +118,14 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
         for idx, cap in enumerate(capture_list):
 
             p = buff_point[idx]  # current pointer (buffer index)
-            # If there was motion detected, dropping the last frame (md_frame with depicted rectangles)
+
+            # If there was motion detected, dropping the last frame (md_frame with depicted bb's)
             if md_status[idx] > 0:
-                p -= 1 if p > 0 else N_buff - 1
+                # p -= 1 if p > 0 else N_buff - 1
+                if p > 0:
+                    p -= 1
+                else:
+                    p = N_buff - 1
 
             isTrue, frame = cap.read()
             if isTrue:
@@ -135,7 +140,11 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                     success_count[idx] += 1
 
                 # Put current frame in buffer
-                p += 1 if p < N_buff - 1 else 0
+                # p += 1 if p < N_buff - 1 else 0
+                if p < N_buff - 1:
+                    p += 1
+                else:
+                    p = 0
                 buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
                 buff_point[idx] = p  # save pointer
 
@@ -144,20 +153,18 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                 if md_enabled_list[idx] and success_count[idx] > 15:
                     #
                     # Get background and foreground
-                    background_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 15, 0)
+                    background_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 15)
                     background = np.mean(background_array, axis=0, dtype=np.float32)
                     #
-                    foreground_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 5, 0)
+                    foreground_array = utils.get_frames_from_buff(buff_array[idx], buff_point[idx], 5)
                     for i in range(5):
                         foreground_array[i] = foreground_array[i] * (i+1) / 5
                     foreground = np.mean(foreground_array, axis=0, dtype=np.float32)
                     #
                     contours = utils.md_diff(foreground, background)
 
-                    # Get frames
+                    # Frame for visualization bb's on it
                     md_frame = frame.copy()
-                    # prev_frame = buff_array[idx][p].copy()
-                    # contours = utils.md_diff(md_frame, prev_frame)
                     #
                     if len(contours) != 0:
                         # got_motion = True
@@ -170,16 +177,25 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                             cv.rectangle(md_frame, (xc, yc), (xc + wc, yc + hc), (0, 255, 0), 2)
 
                 # Update md_status
-                md_status[idx] += 1 if got_motion else 0
+                # md_status[idx] += 1 if got_motion else 0
+                if got_motion:
+                    md_status[idx] += 1
+                else:
+                    md_status[idx] = 0
                 if md_status[idx] > N_buff:
                     md_status[idx] = N_buff
-                # print(idx, md_status[idx], got_motion)
 
-                # Put frame with depicted rectangles in buffer
+                # Put frame with depicted bb's in buffer
                 if got_motion:
-                    p += 1 if p < N_buff - 1 else 0
+                    # p += 1 if p < N_buff - 1 else 0
+                    if p < N_buff - 1:
+                        p += 1
+                    else:
+                        p = 0
                     buff_array[idx][p] = md_frame.copy()  # save frame with rectangles by current index (pointer)
                     buff_point[idx] = p
+                    #
+                    print('idx={}, p={}, md_status={}, success_count={}'.format(idx, p, md_status[idx], success_count[idx]))
                 #
             else:
                 # Reset the success counter
@@ -192,7 +208,11 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                     frame = buff_array[idx][p].copy()
                     cv.putText(frame, 'Connecting...', (30, 40), font, fontScale, (100, 255, 0), 2, cv.LINE_AA)
                     #
-                    p += 1 if p < N_buff - 1 else 0
+                    # p += 1 if p < N_buff - 1 else 0
+                    if p < N_buff - 1:
+                        p += 1
+                    else:
+                        p = 0
                     buff_array[idx][p] = frame.copy()  # save frame by current index (pointer)
                     buff_point[idx] = p  # save pointer
                     md_status[idx] = 0
@@ -220,9 +240,10 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
             frames_count += 1
             # Put FPS on the frame and show it
             cv.putText(full_frame, str(fps), (7, 70), font_fps, fontScale_fps, (100, 255, 0), 3, cv.LINE_AA)
+            #
         #
         cv.imshow(Window_name, full_frame)
-
+        #
         if cv.waitKey(20) & 0xFF == ord('q'):
             break
     for cap in capture_list:
