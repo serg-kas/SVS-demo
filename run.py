@@ -195,7 +195,7 @@ def show_uniform_md(Cam_list, W=1280, H=800, N_cols=2, N_rows=2, FPS_calc=False)
                     buff_array[idx][p] = md_frame.copy()  # save frame with rectangles by current index (pointer)
                     buff_point[idx] = p
                     #
-                    print('idx={}, p={}, md_status={}, success_count={}'.format(idx, p, md_status[idx], success_count[idx]))
+                    # print('idx={}, p={}, md_status={}, success_count={}'.format(idx, p, md_status[idx], success_count[idx]))
                 #
             else:
                 # Reset the success counter
