@@ -139,5 +139,6 @@ def get_frames_from_buff(buffer, point, frames_return):
         return buffer[-frames_return:]
     else:
         N_buff = settings.N_buff
+        print(point, buffer[N_buff-frames_return+point:].shape, buffer[:point].shape)
         return np.concatenate([buffer[N_buff-frames_return+point:], buffer[:point]], axis=0)
 

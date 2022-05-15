@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="md function still in progress-2">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="md function in progress, index fixed ?">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -424,7 +423,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651703842187</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="md function in progress, index fixed ?">
+      <created>1652568195302</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1652568195302</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -439,7 +445,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Operation mode parsing function is ready" />
     <MESSAGE value="refactoring custom template function" />
     <MESSAGE value="show_custom1 needs some fixing" />
     <MESSAGE value="show_custom1 assert conditions" />
@@ -464,6 +469,7 @@
     <MESSAGE value="md function in progress" />
     <MESSAGE value="md function still in progress" />
     <MESSAGE value="md function still in progress-2" />
-    <option name="LAST_COMMIT_MESSAGE" value="md function still in progress-2" />
+    <MESSAGE value="md function in progress, index fixed ?" />
+    <option name="LAST_COMMIT_MESSAGE" value="md function in progress, index fixed ?" />
   </component>
 </project>
