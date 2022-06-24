@@ -1,11 +1,12 @@
 #
 # Helper functions module
 #
+
 import cv2 as cv
 import numpy as np
-import tkinter as tk  # being used for get screen resolution
+import tkinter as tk  # used for get screen resolution
 import os
-#
+
 import settings
 
 # Verbose and Debug options
@@ -45,7 +46,7 @@ def get_cam_list():
     return Cam_list
 
 
-# Reading operation mode from settings
+# Parsing operation mode from text
 def get_operation_mode(Operation_mode_string):
     Operation_mode = None
     if VERBOSE:
@@ -134,12 +135,12 @@ def md_diff(frame1, frame2):
 
 
 # Get some frames from buffer
-def get_frames_from_buff(buffer, point, frames_return):
-    if point > frames_return:
-        # print(point, buffer[point-frames_return:point].shape)
-        return buffer[point-frames_return:point]
+def get_frames_from_buff(buffer, point, frames_to_return):
+    if point > frames_to_return:
+        # print(point, buffer[point-frames_to_return:point].shape)
+        return buffer[point - frames_to_return:point]
     else:
         N_buff = settings.N_buff
-        # print(point, buffer[N_buff-frames_return+point:].shape, buffer[:point].shape)
-        return np.concatenate([buffer[N_buff-frames_return+point:], buffer[:point]], axis=0)
+        # print(point, buffer[N_buff-frames_to_return+point:].shape, buffer[:point].shape)
+        return np.concatenate([buffer[N_buff - frames_to_return + point:], buffer[:point]], axis=0)
 

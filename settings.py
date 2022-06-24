@@ -1,6 +1,7 @@
 #
 # Module for storing settings, options, etc.
 #
+
 # Verbose and Debug flags
 VERBOSE = True
 DEBUG = True
@@ -66,7 +67,7 @@ Cameras = [{'Cam_name': 'Cam01', 'Is_active': True, 'MD_enabled': True,
            ]
 
 
-# Default camera name
+# Name of Default camera
 Def_cam_name = 'Cam11'
 # Def_cam_name = 'Cam01'
 
@@ -87,7 +88,7 @@ Operation_modes = [{'Mode_name': 'Single', 'Pipeline': [], 'Save': False, 'Displ
                    ]
 
 
-# Operation mode string
+# Operation mode string by default
 # Operation_mode_string = 'single'
 # Operation_mode_string = 'uniform4x4'
 # Operation_mode_string = 'custom_5x4'

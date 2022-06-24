@@ -5,14 +5,14 @@
 # Settings are stored in settings.py
 # Functions - in run.py and utils.py files
 # The mode of operation can be set with a command line parameter.
-#
+
 import sys
-#
+
 import settings
 import utils
 import run
 import depreciated as depr
-#
+
 # import warnings
 # warnings.filterwarnings("ignore")
 
@@ -20,7 +20,7 @@ import depreciated as depr
 # Process function
 def process(Operation_mode_string):
     """
-    :param Operation_mode_string: Text string from which the operating mode is parsed
+    :param Operation_mode_string: Text string from which the operating mode will be parsed
     :return: None
     """
     # Environment preparation
@@ -40,23 +40,20 @@ def process(Operation_mode_string):
     # Case switch for running in selected operation mode
     match Operation_mode['Mode_name']:
         case 'Single':
-            #
             print('Operation mode: {}'.format(Operation_mode['Mode_name']))
             run.show_single(Cam_list[0], W_frame, H_frame, FPS_calc=settings.FPS_calc)
 
         case 'UniformCxR':
-            #
             print('Operation mode: {}, C={}, R={}'.format(Operation_mode['Mode_name'], N_cols, N_rows))
             depr.show_uniform_buff(Cam_list, W_frame, H_frame, N_cols, N_rows, FPS_calc=settings.FPS_calc)
             # run.show_uniform_md(Cam_list, W_frame, H_frame, N_cols, N_rows, FPS_calc=settings.FPS_calc)
+
         case 'Custom_CxR':
-            #
             Events_line, Faces_line = settings.Events_line, settings.Faces_line
             print('Operation mode: {}, C={}, R={}, E={}, F={}'.format(Operation_mode['Mode_name'], N_cols, N_rows, Events_line, Faces_line))
             run.show_custom1(Cam_list, W_frame, H_frame, N_cols, N_rows, Events_line, Faces_line)
 
         case 'test':
-            #
             print('Operation mode: {}'.format(Operation_mode['Mode_name']))
             #
             # depr.show_uniform_fps_cells(Cam_list, W_frame, H_frame, N_cols=4, N_rows=4, FPS_calc=True)
@@ -65,7 +62,6 @@ def process(Operation_mode_string):
             #
             run.show_uniform_md(Cam_list, W_frame, H_frame, N_cols=4, N_rows=3, FPS_calc=True)
             # run.show_custom1(Cam_list, W_frame, H_frame, N_cols=6, N_rows=5, Events_line=True, Faces_line=True)
-            #
 
         case _:
             print('Error starting operation mode (function not found).')
