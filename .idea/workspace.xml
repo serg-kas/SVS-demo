@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="md function in progress, algorithm ?">
+    <list default="true" id="624537e1-2298-43ee-aa8f-6e95ad6e1058" name="Changes" comment="some comments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/depreciated.py" beforeDir="false" afterPath="$PROJECT_DIR$/depreciated.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/svs.py" beforeDir="false" afterPath="$PROJECT_DIR$/svs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,13 +85,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1647365778034</updated>
-    </task>
-    <task id="LOCAL-00003" summary="getting started">
-      <created>1647473009714</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1647473009714</updated>
     </task>
     <task id="LOCAL-00004" summary="getting started">
       <created>1647473105772</created>
@@ -434,7 +422,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652596857395</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="some comments">
+      <created>1656109573081</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1656109573082</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -449,7 +444,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="show_custom1 assert conditions" />
     <MESSAGE value="calculating fps for uniform and custom view" />
     <MESSAGE value="minimal improvements in svs.py" />
     <MESSAGE value="minimal fixes in svs.py" />
@@ -474,6 +468,7 @@
     <MESSAGE value="md function in progress, index fixed ?" />
     <MESSAGE value="md function in progress, why gor motion always on point=236" />
     <MESSAGE value="md function in progress, algorithm ?" />
-    <option name="LAST_COMMIT_MESSAGE" value="md function in progress, algorithm ?" />
+    <MESSAGE value="some comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="some comments" />
   </component>
 </project>
